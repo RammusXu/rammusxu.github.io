@@ -1,40 +1,23 @@
-<!DOCTYPE html>
-<html>
+---
+layout: default
+---
 
-<head>
-    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
-    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="logo.png" type="image/png">
-    <title>Rammus Xu</title>
-</head>
+<div class="home">
 
+  <h1 class="page-heading">Posts</h1>
 
-<div class="row">
-  <div class="col-12 header">
-    <div class="logo">
-      <h2>Rammus Xu Profile </h2>
-    </div>
-    <div class="section-work nav">
-      <ul>
-        <li><a href="#portolio">Portfolio</a></li>
-        <li><a href="#">Experience</a></li>
-        <li><a href="#">Skill Tree</a></li>
-      </ul>
-    </div>
-  </div>
+  <ul class="post-list">
+    {% for post in site.posts %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-  <div class="main">
-    <h1>Who am I</h1>
-  </div>
+        <h2>
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </h2>
+      </li>
+    {% endfor %}
+  </ul>
 
-  <div class="empty">
-  </div>
-  <div class="portolio" id="portolio">
-    <h1>Portfolio</h1>
-  </div>
+  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
 </div>
-
-
-</html>
