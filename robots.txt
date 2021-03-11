@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /*
+Sitemap: https://rammusxu.github.io/sitemap.xml
+Sitemap: https://rammusxu.github.io/toolkit/sitemap.xml
