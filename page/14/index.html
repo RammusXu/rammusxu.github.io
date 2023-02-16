@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7VTEXK0WQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7VTEXK0WQ');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>Rammus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="個人紀錄一些技術文件或解決問題的思維">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rammus">
+<meta property="og:url" content="https://rammusxu.github.io/page/14/index.html">
+<meta property="og:site_name" content="Rammus">
+<meta property="og:description" content="個人紀錄一些技術文件或解決問題的思維">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Rammus Xu">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rammus</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">A Taiwan Developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About Me</a>
+        
+          <a class="main-nav-link" href="/tags/DevOps/">DevOps</a>
+        
+          <a class="main-nav-link" href="/toolkit">Toolkit</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/RammusXu" target="_blank"></a>
+        
+        
+          <a id="nav-linkedin-link" class="nav-icon" href="https://tw.linkedin.com/in/rammusxu" target="_blank"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rammusxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-在-AWS-EC2-Instance-建立-Jenkins-服務" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/08/11/%E5%9C%A8-AWS-EC2-Instance-%E5%BB%BA%E7%AB%8B-Jenkins-%E6%9C%8D%E5%8B%99/" class="article-date">
+  <time class="dt-published" datetime="2016-08-11T01:26:36.000Z" itemprop="datePublished">2016-08-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/08/11/%E5%9C%A8-AWS-EC2-Instance-%E5%BB%BA%E7%AB%8B-Jenkins-%E6%9C%8D%E5%8B%99/">在 AWS EC2 Instance 建立 Jenkins 服務</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Install Jenkins</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins.io/redhat-stable/jenkins.repo</span><br><span class="line">sudo rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key</span><br><span class="line">sudo yum install jenkins</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2016/08/11/%E5%9C%A8-AWS-EC2-Instance-%E5%BB%BA%E7%AB%8B-Jenkins-%E6%9C%8D%E5%8B%99/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2016/08/11/%E5%9C%A8-AWS-EC2-Instance-%E5%BB%BA%E7%AB%8B-Jenkins-%E6%9C%8D%E5%8B%99/" data-id="cle73ssg0004f01o87qk06smu" data-title="在 AWS EC2 Instance 建立 Jenkins 服務" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2016/08/11/%E5%9C%A8-AWS-EC2-Instance-%E5%BB%BA%E7%AB%8B-Jenkins-%E6%9C%8D%E5%8B%99/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EC2/" rel="tag">EC2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-xampp-troubleshooting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/08/10/xampp-troubleshooting/" class="article-date">
+  <time class="dt-published" datetime="2016-08-10T02:13:51.000Z" itemprop="datePublished">2016-08-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/08/10/xampp-troubleshooting/">XAMPP 疑難雜症解決</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="XAMP-Apache-MariaDB-PHP-Perl"><a href="#XAMP-Apache-MariaDB-PHP-Perl" class="headerlink" title="XAMP = Apache + MariaDB + PHP + Perl"></a>XAMP = Apache + MariaDB + PHP + Perl</h1><p><a target="_blank" rel="noopener" href="https://www.apachefriends.org/zh_tw/index.html">https://www.apachefriends.org/zh_tw/index.html</a></p>
+<h1 id="xampp-set-mysql-password"><a href="#xampp-set-mysql-password" class="headerlink" title="xampp set mysql password"></a>xampp set mysql password</h1><p><a target="_blank" rel="noopener" href="https://achiuan.com/666/xampp-5-6-15-%E4%BF%AE%E6%94%B9-mysql-%E5%AF%86%E7%A2%BC%E8%88%87-phpmyadmin-%E8%A8%AD%E5%AE%9A.html">https://achiuan.com/666/xampp-5-6-15-%E4%BF%AE%E6%94%B9-mysql-%E5%AF%86%E7%A2%BC%E8%88%87-phpmyadmin-%E8%A8%AD%E5%AE%9A.html</a></p>
+<h1 id="xampp-tutorial"><a href="#xampp-tutorial" class="headerlink" title="xampp tutorial"></a>xampp tutorial</h1><p><a target="_blank" rel="noopener" href="https://premium.wpmudev.org/blog/setting-up-xampp/?tchv=b&amp;utm_expid=3606929-72.AqocGS0YR5Gn_p3r6t6_AA.1&amp;utm_referrer=https://www.google.com.tw/#">https://premium.wpmudev.org/blog/setting-up-xampp/?tchv=b&amp;utm_expid=3606929-72.AqocGS0YR5Gn_p3r6t6_AA.1&amp;utm_referrer=https%3A%2F%2Fwww.google.com.tw%2F#</a></p>
+<h1 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h1><h3 id="port-被佔住"><a href="#port-被佔住" class="headerlink" title="port 被佔住"></a>port 被佔住</h3><pre><code>1. netstat -aon
+2. 工作管理員 -&gt; 詳細資料 -&gt; 結束PID</code></pre>
+<h3 id="無法從外部網路連接"><a href="#無法從外部網路連接" class="headerlink" title="無法從外部網路連接"></a>無法從外部網路連接</h3><pre><code>- pppoe?
+- 控制台 -&gt; 系統及安全性 -&gt; windows防火牆 -&gt; 進階選項 -&gt; 輸入規則</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2016/08/10/xampp-troubleshooting/" data-id="cle73ssfr004801o8dbpsbcos" data-title="XAMPP 疑難雜症解決" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2016/08/10/xampp-troubleshooting/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-aws-access-s3-without-credentials" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/08/08/aws-access-s3-without-credentials/" class="article-date">
+  <time class="dt-published" datetime="2016-08-08T23:57:15.000Z" itemprop="datePublished">2016-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/08/08/aws-access-s3-without-credentials/">AWS - 不用credentials存取S3的方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h2><ul>
+<li>IAM role不能指派給running instance</li>
+<li>如果要加IAM role 給running instance，可以先新增一個instance的image，並指派role給該image後，使用該image啟動一個instance</li>
+</ul>
+<h2 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h2><ul>
+<li>Create an IAM Role</li>
+<li>Launch an EC2 Instance and Specify Your IAM Role</li>
+<li>Create your Application</li>
+<li>Transfer the Compiled Program to Your EC2 Instance</li>
+<li>Run the Sample Program on the EC2 Instance</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2016/08/08/aws-access-s3-without-credentials/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2016/08/08/aws-access-s3-without-credentials/" data-id="cle73sseg002l01o8hd7whoak" data-title="AWS - 不用credentials存取S3的方法" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2016/08/08/aws-access-s3-without-credentials/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EC2/" rel="tag">EC2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/S3/" rel="tag">S3</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-use-python-to-verify-aws-ec2-have-permission-to-access-s3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/08/08/use-python-to-verify-aws-ec2-have-permission-to-access-s3/" class="article-date">
+  <time class="dt-published" datetime="2016-08-08T23:34:20.000Z" itemprop="datePublished">2016-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/08/08/use-python-to-verify-aws-ec2-have-permission-to-access-s3/">使用Python驗證AWS EC2是否有權限存取S3</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Snippet"><a href="#Snippet" class="headerlink" title="Snippet"></a>Snippet</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> boto3</span><br><span class="line"></span><br><span class="line"><span class="comment"># Let&#x27;s use Amazon S3</span></span><br><span class="line">s3 = boto3.resource(<span class="string">&#x27;s3&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print out bucket names</span></span><br><span class="line"><span class="keyword">for</span> bucket <span class="keyword">in</span> s3.buckets.all():</span><br><span class="line">    print(bucket.name)</span><br><span class="line"></span><br><span class="line">bucketName = <span class="string">&#x27;my_domain.com.tw&#x27;</span></span><br><span class="line">bucket = s3.Bucket(bucketName)</span><br><span class="line"><span class="comment"># 印出bucket下所有物件</span></span><br><span class="line"><span class="keyword">for</span> obj <span class="keyword">in</span> bucket.objects.all():</span><br><span class="line">     print(obj.key)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定一個物件，取出後存成test</span></span><br><span class="line">objName = <span class="string">&#x27;bucket_obj/a_obj&#x27;</span></span><br><span class="line">s3.Object(bucketName,objName).download_file(<span class="string">&#x27;test&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Step-by-Step"><a href="#Step-by-Step" class="headerlink" title="Step by Step"></a>Step by Step</h2><p>如果沒有安裝過boto3的話</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pip instal boto3</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2016/08/08/use-python-to-verify-aws-ec2-have-permission-to-access-s3/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2016/08/08/use-python-to-verify-aws-ec2-have-permission-to-access-s3/" data-id="cle73ssfo004101o87nns391j" data-title="使用Python驗證AWS EC2是否有權限存取S3" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2016/08/08/use-python-to-verify-aws-ec2-have-permission-to-access-s3/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EC2/" rel="tag">EC2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-change-linux-default-timezone" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/08/08/change-linux-default-timezone/" class="article-date">
+  <time class="dt-published" datetime="2016-08-08T23:07:52.000Z" itemprop="datePublished">2016-08-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2016/08/08/change-linux-default-timezone/">更改 Linux 預設時區</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="查詢時區及正式名稱"><a href="#查詢時區及正式名稱" class="headerlink" title="查詢時區及正式名稱"></a>查詢時區及正式名稱</h2><p>可以使用wiki <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">https://en.wikipedia.org/wiki/List_of_tz_database_time_zones</a></p>
+<p>在linux裡搜尋相對應的時區</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ls /usr/share/zoneinfo/</span><br><span class="line">Africa/      CET          Etc/         Hongkong     Kwajalein    Pacific/     ROK          zone.tab</span><br><span class="line">America/     Chile/       Europe/      HST          Libya        Poland       Singapore    Zulu</span><br><span class="line">Antarctica/  CST6CDT      GB           Iceland      MET          Portugal     Turkey</span><br><span class="line">Arctic/      Cuba         GB-Eire      Indian/      Mexico/      posix/       UCT</span><br><span class="line">Asia/        EET          GMT          Iran         MST          posixrules   Universal</span><br><span class="line">Atlantic/    Egypt        GMT0         iso3166.tab  MST7MDT      PRC          US/</span><br><span class="line">Australia/   Eire         GMT-0        Israel       Navajo       PST8PDT      UTC</span><br><span class="line">Brazil/      EST          GMT+0        Jamaica      NZ           right/       WET</span><br><span class="line">Canada/      EST5EDT      Greenwich    Japan        NZ-CHAT      ROC          W-SU</span><br></pre></td></tr></table></figure>
+
+<p>使用soft link方式更改時區會比直接copy還要好維護</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo unlink /etc/localtime</span><br><span class="line">$ sudo ln -s /usr/share/zoneinfo/Etc/GMT+6 /etc/localtime</span><br></pre></td></tr></table></figure>
+
+<p>檢查是否正確更改</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ date -u</span><br><span class="line">Thu Jan 23 05:40:31 UTC 2014</span><br><span class="line"></span><br><span class="line">$ date</span><br><span class="line">Wed Jan 22 23:40:38 GMT+6 2014</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li>Timezone setting in Linux <a target="_blank" rel="noopener" href="http://unix.stackexchange.com/questions/110522/timezone-setting-in-linux">http://unix.stackexchange.com/questions/110522/timezone-setting-in-linux</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2016/08/08/change-linux-default-timezone/" data-id="cle73ssel002v01o8ax6debok" data-title="更改 Linux 預設時區" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2016/08/08/change-linux-default-timezone/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/13/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/15/">下一頁 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alert/" rel="tag">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CD/" rel="tag">CD</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare/" rel="tag">Cloudflare</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare-Worker/" rel="tag">Cloudflare Worker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Devops/" rel="tag">Devops</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/" rel="tag">Express</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GCP/" rel="tag">GCP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GKE/" rel="tag">GKE</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitLab/" rel="tag">GitLab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Homebrew/" rel="tag">Homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/How-I-Mess-Up-in-Production/" rel="tag">How I Mess Up in Production</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/" rel="tag">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Meetup/" rel="tag">Meetup</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/News/" rel="tag">News</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Play-Framework/" rel="tag">Play Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RDS/" rel="tag">RDS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/S3/" rel="tag">S3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SES/" rel="tag">SES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQS/" rel="tag">SQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/" rel="tag">SSL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Serverless/" rel="tag">Serverless</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software/" rel="tag">Software</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/" rel="tag">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/" rel="tag">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c9-io/" rel="tag">c9.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" rel="tag">讀書心得</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/API/" style="font-size: 10px;">API</a> <a href="/tags/AWS/" style="font-size: 17.5px;">AWS</a> <a href="/tags/Alert/" style="font-size: 10px;">Alert</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/CD/" style="font-size: 16.25px;">CD</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/ChatOps/" style="font-size: 10px;">ChatOps</a> <a href="/tags/Cloudflare/" style="font-size: 10px;">Cloudflare</a> <a href="/tags/Cloudflare-Worker/" style="font-size: 10px;">Cloudflare Worker</a> <a href="/tags/DNS/" style="font-size: 11.25px;">DNS</a> <a href="/tags/DevOps/" style="font-size: 20px;">DevOps</a> <a href="/tags/Devops/" style="font-size: 10px;">Devops</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 13.75px;">EC2</a> <a href="/tags/ElasticSearch/" style="font-size: 11.25px;">ElasticSearch</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/GCP/" style="font-size: 13.75px;">GCP</a> <a href="/tags/GKE/" style="font-size: 13.75px;">GKE</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitLab/" style="font-size: 13.75px;">GitLab</a> <a href="/tags/GitOps/" style="font-size: 15px;">GitOps</a> <a href="/tags/Github/" style="font-size: 12.5px;">Github</a> <a href="/tags/Github-Action/" style="font-size: 10px;">Github Action</a> <a href="/tags/Gradle/" style="font-size: 11.25px;">Gradle</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/Homebrew/" style="font-size: 10px;">Homebrew</a> <a href="/tags/How-I-Mess-Up-in-Production/" style="font-size: 10px;">How I Mess Up in Production</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 18.75px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Linux/" style="font-size: 16.25px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.5px;">Mac</a> <a href="/tags/Meetup/" style="font-size: 11.25px;">Meetup</a> <a href="/tags/MongoDB/" style="font-size: 13.75px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/News/" style="font-size: 11.25px;">News</a> <a href="/tags/Node-js/" style="font-size: 13.75px;">Node.js</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Play-Framework/" style="font-size: 11.25px;">Play Framework</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RDS/" style="font-size: 11.25px;">RDS</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SES/" style="font-size: 10px;">SES</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SSL/" style="font-size: 12.5px;">SSL</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/Security/" style="font-size: 13.75px;">Security</a> <a href="/tags/Serverless/" style="font-size: 10px;">Serverless</a> <a href="/tags/Service-Mesh/" style="font-size: 10px;">Service Mesh</a> <a href="/tags/Software/" style="font-size: 10px;">Software</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Wordpress/" style="font-size: 12.5px;">Wordpress</a> <a href="/tags/c9-io/" style="font-size: 11.25px;">c9.io</a> <a href="/tags/terminal/" style="font-size: 11.25px;">terminal</a> <a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" style="font-size: 10px;">讀書心得</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/">Docker New Retention Policy on 2020-08-13</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/17/How-I-debug-a-certificate-didn-t-renew/">How I debug a certificate didn&#39;t renew</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/">AWS Route 53 - 實測 Geolocation Routing</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/">Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/">Kubernetes - Access another cluster services with service account token</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+      Copyright &copy; 2015-2023 Rammus Xu<br>
+      All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About Me</a>
+  
+    <a href="/tags/DevOps/" class="mobile-nav-link">DevOps</a>
+  
+    <a href="/toolkit" class="mobile-nav-link">Toolkit</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'rammusxu';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

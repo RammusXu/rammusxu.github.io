@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7VTEXK0WQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7VTEXK0WQ');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>Rammus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="個人紀錄一些技術文件或解決問題的思維">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rammus">
+<meta property="og:url" content="https://rammusxu.github.io/index.html">
+<meta property="og:site_name" content="Rammus">
+<meta property="og:description" content="個人紀錄一些技術文件或解決問題的思維">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Rammus Xu">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rammus</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">A Taiwan Developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About Me</a>
+        
+          <a class="main-nav-link" href="/tags/DevOps/">DevOps</a>
+        
+          <a class="main-nav-link" href="/toolkit">Toolkit</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/RammusXu" target="_blank"></a>
+        
+        
+          <a id="nav-linkedin-link" class="nav-icon" href="https://tw.linkedin.com/in/rammusxu" target="_blank"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rammusxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Devops-Highway-Strategy-高速公路策略" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/" class="article-date">
+  <time class="dt-published" datetime="2022-09-20T06:54:19.000Z" itemprop="datePublished">2022-09-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <img src="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/highway.jpeg" class="" title="This is an highway image">
+<p><span class="caption">Photo by <a target="_blank" rel="noopener" href="https://unsplash.com/@dnevozhai?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Denys Nevozhai</a> on <a target="_blank" rel="noopener" href="https://unsplash.com/s/photos/highway-multiple?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></span></p>
+<p>在過去十年的開發經驗，大部分是新創團隊，全部工程師加起來不超過 20 人的團隊。最近才加入一個大團隊，光是 DevOps 就破百人了，還有破百個 AWS Accounts + Regions。</p>
+<p>進來後就發現有各種 solution + architecture，其中有幾個團隊，試圖做一個大的自動化框架，標準化全公司的 CICD + EKS + AWS。</p>
+<p>我個人也是希望大家都使用統一的標準、流程和工具，這樣資訊和技術的落差比較小，訓練和開發的成本也能降低許多。但是，搞到最後，我為了配合大標準，犧牲了一堆習慣的功能，一堆 tradeoff，變成我開發也困難、部署也困難</p>
+<p>我開始反思，一間公司只需要一套標準嗎？把所有人的需求都加到裡面，就能變成一套完美的工具嗎？</p>
+<p>我覺得事實剛好相反，這邊我提出一個<code>高速公路策略(Highway Strategy)</code>:</p>
+<ol>
+<li>不可能所有車，去到任何地方都要上高速公路，有些人只是想開到兩個巷口外的餐廳而已。</li>
+<li>鄉間小路還是必要的。</li>
+<li>可以從鄉間小路統計，哪邊有夠多的流量和用戶，才有必要開發高速公路。</li>
+<li>在開發一條高速公路，應該是一段一段接上的。</li>
+<li>在高速公路檢查胎壓、水箱？聽起來怪怪的吧，有些事情是出發前就應該自己檢查了。</li>
+</ol>
+<p>下次如果你們的 DevOps 或是其他團隊，想要統一架構，合併你們的代碼或是 CICD 時，不仿想想高速公路策略，這條公路真的有加速你們到達目的地嗎？</p>
+<p>最終還是要回到用戶導向(User-Oriented)，你蓋個高速公路真的有使用者嗎？還是你蓋完後要過兩年才有用戶？這聽起來很不敏捷也很不 DevOps 吧？</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/" data-id="cle73ssck000h01o8coz9cnvx" data-title="Devops - Highway Strategy 高速公路策略" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Devops/" rel="tag">Devops</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/" class="article-date">
+  <time class="dt-published" datetime="2022-09-19T06:41:45.000Z" itemprop="datePublished">2022-09-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Here are the tips to run a self-runner with gh-cli</p>
+<ol>
+<li>Install gh</li>
+<li>Use <a target="_blank" rel="noopener" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">PAT</a> with permission below to operate your org/repo<ol>
+<li>repo</li>
+<li>workflow</li>
+<li>admin:org</li>
+</ol>
+</li>
+<li>Need to run <code>gh auth login</code></li>
+<li>Now you can start to use gh-cli in your self-runner</li>
+</ol>
+<h3 id="Make-sure-you"><a href="#Make-sure-you" class="headerlink" title="Make sure you:"></a>Make sure you:</h3><ul>
+<li>Add secrets.MY_PAT in org/repo settings</li>
+<li><code>--hostname git.mycompany.com</code> is your domain</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Weekly</span> <span class="string">Report</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">&#x27;0 4 * * 4&#x27;</span> <span class="comment"># 12:00 UTC+8, Friday</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">report:</span></span><br><span class="line">    <span class="attr">runs-on:</span> [<span class="string">self-hosted</span>]</span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">devops/gh_actions_checkout@v3</span></span><br><span class="line">      <span class="comment">## <span class="doctag">TODO:</span> remove this after runner image installed it.</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">gh-cli</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">curl</span> <span class="string">-fsSL</span> <span class="string">https://cli.github.com/packages/githubcli-archive-keyring.gpg</span> <span class="string">|</span> <span class="string">sudo</span> <span class="string">dd</span> <span class="string">of=/usr/share/keyrings/githubcli-archive-keyring.gpg</span> <span class="string">\</span></span><br><span class="line">          <span class="string">&amp;&amp;</span> <span class="string">sudo</span> <span class="string">chmod</span> <span class="string">go+r</span> <span class="string">/usr/share/keyrings/githubcli-archive-keyring.gpg</span> <span class="string">\</span></span><br><span class="line">          <span class="string">&amp;&amp;</span> <span class="string">echo</span> <span class="string">&quot;deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main&quot;</span> <span class="string">|</span> <span class="string">sudo</span> <span class="string">tee</span> <span class="string">/etc/apt/sources.list.d/github-cli.list</span> <span class="string">&gt;</span> <span class="string">/dev/null</span> <span class="string">\</span></span><br><span class="line">          <span class="string">&amp;&amp;</span> <span class="string">sudo</span> <span class="string">apt</span> <span class="string">update</span> <span class="string">\</span></span><br><span class="line">          <span class="string">&amp;&amp;</span> <span class="string">sudo</span> <span class="string">apt</span> <span class="string">install</span> <span class="string">gh</span> <span class="string">-y</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">gh</span> <span class="string">auth</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.MY_PAT</span> <span class="string">&#125;&#125;</span> <span class="string">|</span> <span class="string">gh</span> <span class="string">auth</span> <span class="string">login</span> <span class="string">--with-token</span> <span class="string">--hostname</span> <span class="string">git.mycompany.com</span> <span class="string">--git-protocol</span> <span class="string">https</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Search</span> <span class="bullet">-</span> <span class="string">Logging</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">gh</span> <span class="string">issue</span> <span class="string">list</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Here-are-every-type-of-error-if-you-set-it-wrong-or-miss-some-steps"><a href="#Here-are-every-type-of-error-if-you-set-it-wrong-or-miss-some-steps" class="headerlink" title="Here are every type of error if you set it wrong or miss some steps"></a>Here are every type of error if you set it wrong or miss some steps</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP 401: This endpoint requires you to be authenticated. (https:&#x2F;&#x2F;git.mycompany.com&#x2F;api&#x2F;graphql)</span><br><span class="line">Try authenticating with:  gh auth login</span><br><span class="line">Error: Process completed with exit code 1.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">could not determine base repo: fatal: not a git repository (or any parent up to mount point &#x2F;)</span><br><span class="line">Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;git: exit status 128</span><br><span class="line">Error: Process completed with exit code 1.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;runner&#x2F;_work&#x2F;_temp&#x2F;4e6ad363-9482-4dc1-8edd-a3ff80577dae.sh: line 1: gh: command not found</span><br><span class="line">Error: Process completed with exit code 127.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP 401: This endpoint requires you to be authenticated. (https:&#x2F;&#x2F;git.mycompany.com&#x2F;api&#x2F;graphql)</span><br><span class="line">Try authenticating with:  gh auth login</span><br><span class="line">Error: Process completed with exit code 1.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">The value of the GH_TOKEN environment variable is being used for authentication.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">error fetching organization projects: Message: Resource not accessible by integration, Locations: [&#123;Line:1 Column:92&#125;]</span><br><span class="line">Error: Process completed with exit code 1.</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/" data-id="cle73ssdg001901o8f8ueajxi" data-title="Github Action - Can&#39;t use gh-cli in self-runner in Enterprise" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/" class="article-date">
+  <time class="dt-published" datetime="2022-01-18T19:51:36.000Z" itemprop="datePublished">2022-01-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>After I create a EKS from AWS Console, I install external-secret using Helm. I pretty sure my IAM role and policy are correct. But I still can’t get secretsmanager. It turns out that it needs a IDP(Identity Provider).</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ERROR, User: arn:aws:sts::xxx:assumed-role/<span class="built_in">test</span>-cluster-NodeRole/i-0b5ab8adzzzf27a1b is not authorized to perform: secretsmanager:GetSecretValue on resource: sm_rammus because no identity-based policy allows the secretsmanager:GetSecretValue action</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/" data-id="cle73sse1001u01o80fapffg6" data-title="Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Kubernetes-Increase-Metrics-Server-Resources" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/" class="article-date">
+  <time class="dt-published" datetime="2021-03-10T19:08:51.000Z" itemprop="datePublished">2021-03-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在 GKE 中，如果 metrics-server 因為資源不足崩潰，可以透過更改 <code>NannyConfiguration</code> 和刪除 <code>Deployment: metric-server</code> 來改善這個問題。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; kubectl top pod</span><br><span class="line">W0309 18:40:25.910477   53595 top_pod.go:274] Metrics not available <span class="keyword">for</span> pod default/xxxx, age: 536h37m25.91045s</span><br><span class="line">error: Metrics not available <span class="keyword">for</span> pod default/xxxx, age: 536h37m25.91045s</span><br></pre></td></tr></table></figure>
+
+
+<p>Environment:</p>
+<ul>
+<li>Kubernetes: v1.17.15-gke.800</li>
+</ul>
+<h2 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; kubectl apply -f metrics-server-config.yaml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">addonmanager.kubernetes.io/mode:</span> <span class="string">EnsureExists</span></span><br><span class="line">    <span class="attr">kubernetes.io/cluster-service:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">metrics-server-config</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">NannyConfiguration:</span> <span class="string">|-</span></span><br><span class="line">    <span class="attr">apiVersion:</span> <span class="string">nannyconfig/v1alpha1</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">NannyConfiguration</span></span><br><span class="line">    <span class="attr">baseCPU:</span> <span class="string">200m</span></span><br><span class="line">    <span class="attr">cpuPerNode:</span> <span class="string">2m</span></span><br><span class="line">    <span class="attr">baseMemory:</span> <span class="string">150Mi</span></span><br><span class="line">    <span class="attr">memoryPerNode:</span> <span class="string">4Mi</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; kubectl delete deployment -n kube-system metrics-server-v0.3.6</span><br><span class="line">deployment.apps <span class="string">&quot;metrics-server-v0.3.6&quot;</span> deleted</span><br></pre></td></tr></table></figure>
+
+<p>需要 3-5 分鐘，等待 <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/">kube-controller-manager</a> 生效，用新的配置產生 Deployment。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/kubernetes/autoscaler/tree/master/addon-resizer">https://github.com/kubernetes/autoscaler/tree/master/addon-resizer</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/" data-id="cle73sse2001x01o820dbhu90" data-title="Kubernetes - Increase metrics-server resources (cpu/memory)" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GKE/" rel="tag">GKE</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Docker-Update-Rate-Limit-Policy-on-2020-08-24" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/" class="article-date">
+  <time class="dt-published" datetime="2020-08-24T20:17:51.000Z" itemprop="datePublished">2020-08-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/docker-together.jpeg" alt="Image from: https://www.docker.com/blog/scaling-dockers-business-to-serve-millions-more-developers-storage/"></p>
+<p>Docker 收到了許多的意見回饋後，在 2020/08/24 更新 Rate Limit Policy，改成針對 manifest 做限制，對開發者友善了許多。</p>
+<h2 id="懶人包"><a href="#懶人包" class="headerlink" title="懶人包"></a>懶人包</h2><ul>
+<li>Rate limit 改成對 manifest 限制，而不是 docker image layers</li>
+<li>一個 <code>docker pull</code> 會有 1-2 個 manifest requests，及 0-N 個 layer requests</li>
+<li><code>docker pull</code> 就算沒有下載任何 layer，也會計次
+        
+          <p class="article-more-link">
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/" data-id="cle73sscr000m01o81q8q39lg" data-title="Docker Update Rate Limit Policy on 2020-08-24 懶人包" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/News/" rel="tag">News</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">下一頁 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alert/" rel="tag">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CD/" rel="tag">CD</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare/" rel="tag">Cloudflare</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare-Worker/" rel="tag">Cloudflare Worker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Devops/" rel="tag">Devops</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/" rel="tag">Express</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GCP/" rel="tag">GCP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GKE/" rel="tag">GKE</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitLab/" rel="tag">GitLab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Homebrew/" rel="tag">Homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/How-I-Mess-Up-in-Production/" rel="tag">How I Mess Up in Production</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/" rel="tag">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Meetup/" rel="tag">Meetup</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/News/" rel="tag">News</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Play-Framework/" rel="tag">Play Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RDS/" rel="tag">RDS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/S3/" rel="tag">S3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SES/" rel="tag">SES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQS/" rel="tag">SQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/" rel="tag">SSL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Serverless/" rel="tag">Serverless</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software/" rel="tag">Software</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/" rel="tag">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/" rel="tag">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c9-io/" rel="tag">c9.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" rel="tag">讀書心得</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/API/" style="font-size: 10px;">API</a> <a href="/tags/AWS/" style="font-size: 17.5px;">AWS</a> <a href="/tags/Alert/" style="font-size: 10px;">Alert</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/CD/" style="font-size: 16.25px;">CD</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/ChatOps/" style="font-size: 10px;">ChatOps</a> <a href="/tags/Cloudflare/" style="font-size: 10px;">Cloudflare</a> <a href="/tags/Cloudflare-Worker/" style="font-size: 10px;">Cloudflare Worker</a> <a href="/tags/DNS/" style="font-size: 11.25px;">DNS</a> <a href="/tags/DevOps/" style="font-size: 20px;">DevOps</a> <a href="/tags/Devops/" style="font-size: 10px;">Devops</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 13.75px;">EC2</a> <a href="/tags/ElasticSearch/" style="font-size: 11.25px;">ElasticSearch</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/GCP/" style="font-size: 13.75px;">GCP</a> <a href="/tags/GKE/" style="font-size: 13.75px;">GKE</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitLab/" style="font-size: 13.75px;">GitLab</a> <a href="/tags/GitOps/" style="font-size: 15px;">GitOps</a> <a href="/tags/Github/" style="font-size: 12.5px;">Github</a> <a href="/tags/Github-Action/" style="font-size: 10px;">Github Action</a> <a href="/tags/Gradle/" style="font-size: 11.25px;">Gradle</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/Homebrew/" style="font-size: 10px;">Homebrew</a> <a href="/tags/How-I-Mess-Up-in-Production/" style="font-size: 10px;">How I Mess Up in Production</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 18.75px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Linux/" style="font-size: 16.25px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.5px;">Mac</a> <a href="/tags/Meetup/" style="font-size: 11.25px;">Meetup</a> <a href="/tags/MongoDB/" style="font-size: 13.75px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/News/" style="font-size: 11.25px;">News</a> <a href="/tags/Node-js/" style="font-size: 13.75px;">Node.js</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Play-Framework/" style="font-size: 11.25px;">Play Framework</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RDS/" style="font-size: 11.25px;">RDS</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SES/" style="font-size: 10px;">SES</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SSL/" style="font-size: 12.5px;">SSL</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/Security/" style="font-size: 13.75px;">Security</a> <a href="/tags/Serverless/" style="font-size: 10px;">Serverless</a> <a href="/tags/Service-Mesh/" style="font-size: 10px;">Service Mesh</a> <a href="/tags/Software/" style="font-size: 10px;">Software</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Wordpress/" style="font-size: 12.5px;">Wordpress</a> <a href="/tags/c9-io/" style="font-size: 11.25px;">c9.io</a> <a href="/tags/terminal/" style="font-size: 11.25px;">terminal</a> <a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" style="font-size: 10px;">讀書心得</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/">Docker New Retention Policy on 2020-08-13</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/17/How-I-debug-a-certificate-didn-t-renew/">How I debug a certificate didn&#39;t renew</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/">AWS Route 53 - 實測 Geolocation Routing</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/">Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/">Kubernetes - Access another cluster services with service account token</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+      Copyright &copy; 2015-2023 Rammus Xu<br>
+      All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About Me</a>
+  
+    <a href="/tags/DevOps/" class="mobile-nav-link">DevOps</a>
+  
+    <a href="/toolkit" class="mobile-nav-link">Toolkit</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'rammusxu';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

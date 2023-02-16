@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/02/write-blog-in-c9-with-hexo-framework/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/10/xampp-troubleshooting/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/23/%E4%B8%AD%E8%8F%AF%E5%8F%B0%E5%93%A5%E4%B8%AD%E8%8F%AF%E9%9B%99np%E5%BF%83%E5%BE%97%E5%8F%8A%E6%94%BB%E7%95%A5SOP/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/07/23/%E4%BD%BF%E7%94%A8-Docker-%E5%81%9A-Mongodb-%E5%82%99%E4%BB%BD%E8%88%87%E9%82%84%E5%8E%9F%E8%88%87%E6%8E%92%E7%A8%8B/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/11/%E5%9C%A8-AWS-EC2-Instance-%E5%BB%BA%E7%AB%8B-Jenkins-%E6%9C%8D%E5%8B%99/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/12/25/%E5%9C%A8-Amazon-Linux-%E5%AE%89%E8%A3%9D-SSM-Agent/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/10/20/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97-%E6%95%8F%E6%8D%B7%E8%88%87Scrum%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E9%80%9F%E6%88%90/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/about/index.html</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/08/use-python-to-verify-aws-ec2-have-permission-to-access-s3/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/19/using-gradle-to-create-a-runnable-jar-with-dependencies-in-intellij-idea/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/11/05/k8s-Deleting-Namespace-Stuck-at-Terminating-State/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/11/06/k8s-Use-crt-and-key-in-Ingress/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/03/03/letsencrypt-is-revoking-certificates-on-2020-03-05-03-00-UTC/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/04/06/nodejs-multer-file-upload-module/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/01/28/rammusxu-sublime-setting/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2015/12/02/run-nodejs-in-cloud-9/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/09/04/setup-php-in-macbook/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/11/17/swagger-snippets/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/06/04/telepresence-kubernetes-rapid-deployment-in-local/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/02/initialize-a-project-to-git/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/09/07/install-mongodb/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2015/12/02/install-nodejs-in-ubuntu-12-04/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/10/03/install-oracle-jave-8-in-aws-linux/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/07/26/hexo-error-unexpected-tag-asset-img/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2018/07/05/how-to-debug-gitLab-ci/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/17/how-to-do-page-up-on-a-mac-in-terminal/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/09/13/iam-db-auth/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/08/aws-access-s3-without-credentials/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/03/20/brew-enhance-mac-terminal/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/05/11/cert-manager-Error-presenting-challenge-GoogleCloud-API-call-failed-googleapi-Error-403-Request-had-insufficient-authentication-scopes/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/08/change-java-version-in-linux/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/08/change-linux-default-timezone/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/03/31/download-csv-in-express-framwork/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/07/03/gitops-flux-note/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/15/SES-Java-Snippet/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/03/16/Test-and-validate-dnssec-in-dnsmasq-by-docker-compose/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/06/13/Use-Docker-to-Start-Hexo/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/12/17/Use-docker-to-test-GCP-service-account-permission/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/10/19/Wordpress-%E6%90%AC%E5%AE%B6%E6%AD%A5%E9%A9%9F/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/07/11/List-GCR-Public-Images/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/03/Python-Snippet-Date/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2018/07/01/RDS-Note/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/05/24/InvalidReplicaSetConfig-Our-replica-set-config-is-invalid-or-we-are-not-a-member-of-it/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/10/09/Github-Action-YAML-format/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/05/15/Grafana-Troubleshooting/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/02/23/HPA-not-working-in-Mac-docker-desktop/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/07/27/Hexo-pagination/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/07/26/Hexo-robot-txt/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/08/17/How-I-debug-a-certificate-didn-t-renew/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/11/21/Install-Docker-in-CentOS-6/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/11/19/Integrate-Grafana-with-Slack-and-Hubot/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/07/31/Github-Action-Next-Generation-CI-CD/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/07/16/GitOps-Comparison-Argo-Flux/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/07/17/GitOps-Store-Secrets/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/07/30/Git-Update-gitignore-and-remove-from-repository/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2018/03/14/GitLab-CI-Runner/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/03/26/GitLab-CI-build-block-deploy/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2018/09/14/Expand-EBS-Volume/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2017/08/13/Dockerize-Play-Framefork-Application-and-Deploy-to-GitLab-Registry/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/05/09/Elastic-Search-Best-Practice/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/05/12/Elastic-Search-Troubleshooting/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/10/17/Deploy-RestHeart-in-AWS-EC2-container/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/10/17/Could-not-find-org-gradle-wrapper-GradleWrapperMain/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2018/07/01/AWS-summit-2018-Note/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2016/08/18/Amazon-SQS-Long-Polling/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/03/17/BREACH-attack/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/02/10/CloudFlare-Worker-Get-API-Token/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/04/07/0-3-nodes-are-available-1-node-s-had-no-available-volume-zone-1-node-s-had-taints-that-the-pod-didn-t-tolerate-1-node-s-were-unschedulable/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/03/25/2019-AWSome-day/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2019/03/17/2019-Penetration-Testing-Tools/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+
+  <url>
+    <loc>https://rammusxu.github.io/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Kubernetes/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/AWS/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Meetup/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Security/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/DNS/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/DevOps/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/SQS/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Cloudflare/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Cloudflare-Worker/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Serverless/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Java/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Gradle/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/EC2/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/MongoDB/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/API/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Devops/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Docker/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/News/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Wordpress/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Play-Framework/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Git/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/GitLab/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/ElasticSearch/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Linux/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/CI/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/GitOps/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/CD/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Github-Action/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Github/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Grafana/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Alert/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Hexo/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/How-I-Mess-Up-in-Production/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/SSL/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/GKE/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/GCP/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/ChatOps/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Linkerd/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Service-Mesh/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Python/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/RDS/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/SES/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/S3/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Homebrew/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Mac/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/terminal/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Node-js/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Express/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/IAM/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/MySQL/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Ubuntu/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Sublime/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/c9-io/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/PHP/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Swagger/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/IntelliJ/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Blog/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Jenkins/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/SSM/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Scrum/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://rammusxu.github.io/tags/Software/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  
+</urlset>

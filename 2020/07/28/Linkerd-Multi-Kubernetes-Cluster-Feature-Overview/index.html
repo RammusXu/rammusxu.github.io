@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7VTEXK0WQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7VTEXK0WQ');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構 | Rammus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="研究動機：如何在 Pod 中呼叫別的 kubernetes cluster service  嘗試過目前市面上現有的三套開源軟體(Linkerd, Consul, Istio)，決定推坑大家 Linkerd 在今年六月釋出的 Linkerd 2.8，實現了 multi-cluster Kubernetes 架構，我們來看看主打超輕量化 service mesh 的 Linkerd 會怎麼表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構">
+<meta property="og:url" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/index.html">
+<meta property="og:site_name" content="Rammus">
+<meta property="og:description" content="研究動機：如何在 Pod 中呼叫別的 kubernetes cluster service  嘗試過目前市面上現有的三套開源軟體(Linkerd, Consul, Istio)，決定推坑大家 Linkerd 在今年六月釋出的 Linkerd 2.8，實現了 multi-cluster Kubernetes 架構，我們來看看主打超輕量化 service mesh 的 Linkerd 會怎麼表">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/linkerd-overview.svg">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/dashboard.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/test-deployment.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/deployment-detail.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/deployment-tap.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/grafana.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/grafana-test.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/ts-dashboard.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/wrk-test.png">
+<meta property="og:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/benchmark.png">
+<meta property="article:published_time" content="2020-07-28T01:07:13.000Z">
+<meta property="article:modified_time" content="2023-02-16T12:53:19.481Z">
+<meta property="article:author" content="Rammus Xu">
+<meta property="article:tag" content="Kubernetes">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="GKE">
+<meta property="article:tag" content="Linkerd">
+<meta property="article:tag" content="Service Mesh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/linkerd-overview.svg">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rammus</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">A Taiwan Developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About Me</a>
+        
+          <a class="main-nav-link" href="/tags/DevOps/">DevOps</a>
+        
+          <a class="main-nav-link" href="/toolkit">Toolkit</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/RammusXu" target="_blank"></a>
+        
+        
+          <a id="nav-linkedin-link" class="nav-icon" href="https://tw.linkedin.com/in/rammusxu" target="_blank"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rammusxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Linkerd-Multi-Kubernetes-Cluster-Feature-Overview" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/" class="article-date">
+  <time class="dt-published" datetime="2020-07-28T01:07:13.000Z" itemprop="datePublished">2020-07-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/linkerd-overview.svg" class="" title="ref: https:&#x2F;&#x2F;linkerd.io&#x2F;2&#x2F;features&#x2F;multicluster">
+
+<blockquote>
+<p>研究動機：如何在 Pod 中呼叫別的 kubernetes cluster service</p>
+</blockquote>
+<p>嘗試過目前市面上現有的三套開源軟體(<a target="_blank" rel="noopener" href="https://linkerd.io/2/features/multicluster">Linkerd</a>, <a target="_blank" rel="noopener" href="https://learn.hashicorp.com/consul/kubernetes/mesh-gateways">Consul</a>, <a target="_blank" rel="noopener" href="https://istio.io/latest/docs/setup/install/multicluster/shared">Istio</a>)，決定推坑大家 Linkerd 在今年六月釋出的 <a target="_blank" rel="noopener" href="https://linkerd.io/2020/06/09/announcing-linkerd-2.8/">Linkerd 2.8</a>，實現了 multi-cluster Kubernetes 架構，我們來看看主打超輕量化 service mesh 的 Linkerd 會怎麼表現在 multi-cluster。</p>
+<p>目前筆者在同一個 GCP 呼叫不同 cluster 的 service 都需要使用 <a href="https://rammusxu.github.io/toolkit/Today-I-Learned/2020/#kubernetes-gkegcp-proxy-to-internal-load-balancer">internal load balancer</a>，除了會增加許多額外的花費，internal load balancer 預設是能夠讓同一個 VPC 存取，代表任何 VM 都能使用這個 service，這當然不是我們所預期的行為。最重要的是<code>很難維護</code>，所以開始尋找有沒有 solution 可以解決這個問題。</p>
+<ul>
+<li>可以從 Cluster-A 存取 Cluster-B 的 service</li>
+<li>Cluster-B 可以決定要 expose 哪些 service 給特定的 cluster</li>
+<li>connections 低延遲、穩定</li>
+<li>configuration 越少越好</li>
+<li>discover service fast</li>
+<li>private connection with security</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="Install-Linkerd"><a href="#Install-Linkerd" class="headerlink" title="Install Linkerd"></a>Install Linkerd</h1><p>這邊不會提到 cli 和 cluster setup，只會帶到 linkerd，更詳細的 script 會放在 <a target="_blank" rel="noopener" href="https://github.com/RammusXu/toolkit/tree/master/k8s/linkerd-multi-cluster">https://github.com/RammusXu/toolkit/tree/master/k8s/linkerd-multi-cluster</a></p>
+<p>其實只要三個指令就能讓兩個 cluster 相互溝通，可以看到 linkerd 在 cli 的設計，非常簡化、直覺。</p>
+<ul>
+<li><code>linkerd install</code></li>
+<li><code>linkerd multicluster install</code></li>
+<li><code>linkerd --context=east multicluster link --cluster-name east | kubectl --context=west apply -f -</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">## Create CA certificate</span></span><br><span class="line">step certificate create identity.linkerd.cluster.local root.crt root.key \</span><br><span class="line">  --profile root-ca --no-password --insecure</span><br><span class="line">step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \</span><br><span class="line">  --profile intermediate-ca --not-after 87600h --no-password --insecure \</span><br><span class="line">  --ca root.crt --ca-key root.key</span><br><span class="line"></span><br><span class="line"><span class="comment">## Install Linkerd in every cluster</span></span><br><span class="line"><span class="keyword">for</span> ctx <span class="keyword">in</span> $(kubectx); <span class="keyword">do</span></span><br><span class="line">    kubectx <span class="variable">$&#123;ctx&#125;</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Checking cluster: <span class="variable">$&#123;ctx&#125;</span> .........\n&quot;</span></span><br><span class="line">    linkerd install \</span><br><span class="line">        --identity-trust-anchors-file root.crt \</span><br><span class="line">        --identity-issuer-certificate-file issuer.crt \</span><br><span class="line">        --identity-issuer-key-file issuer.key \</span><br><span class="line">        | kubectl apply -f -</span><br><span class="line">    linkerd check || <span class="built_in">break</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;-------------\n&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Install Linkerd multicluster component</span></span><br><span class="line"><span class="keyword">for</span> ctx <span class="keyword">in</span> $(kubectx); <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Installing on cluster: <span class="variable">$&#123;ctx&#125;</span> .........&quot;</span></span><br><span class="line">  linkerd --context=<span class="variable">$&#123;ctx&#125;</span> multicluster install | \</span><br><span class="line">    kubectl --context=<span class="variable">$&#123;ctx&#125;</span> apply -f - || <span class="built_in">break</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;-------------\n&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Check multicluster gateways</span></span><br><span class="line"><span class="keyword">for</span> ctx <span class="keyword">in</span> $(kubectx); <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Checking gateway on cluster: <span class="variable">$&#123;ctx&#125;</span> .........&quot;</span></span><br><span class="line">    kubectl --context=<span class="variable">$&#123;ctx&#125;</span> -n linkerd-multicluster \</span><br><span class="line">        rollout status deploy/linkerd-gateway || <span class="built_in">break</span></span><br><span class="line">    linkerd --context=<span class="variable">$&#123;ctx&#125;</span> check --multicluster || <span class="built_in">break</span></span><br><span class="line">    linkerd --context=<span class="variable">$&#123;ctx&#125;</span> multicluster gateways</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;-------------\n&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Link cluster:east to cluster:west</span></span><br><span class="line">linkerd --context=east multicluster link --cluster-name east |</span><br><span class="line">  kubectl --context=west apply -f -</span><br></pre></td></tr></table></figure>
+
+<h1 id="Showtime"><a href="#Showtime" class="headerlink" title="Showtime"></a>Showtime</h1><p>Dashboard: 可以看到目前所有的 namespace 有多少 meshed(injected), SR, RPS, Latency，還能直接開啟 grafana 看更詳細的資訊。</p>
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/dashboard.png" class="" title="dashboard">
+
+<p>點進 Namespace 可以看到 deployment 之間的關聯。</p>
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/test-deployment.png" class="" title="test namespace">
+
+<p>Deployment 後能看到所有進出的流量。</p>
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/deployment-detail.png" class="" title="deployment">
+
+<p>點擊右邊的 Tap，可以看到目前所有的 request，非常強大的 debug 工具。</p>
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/deployment-tap.png" class="" title="wrk">
+
+<p>grafana 即時顯示 SR, RPS, Latency</p>
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/grafana.png" class="" title="grafana">
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/grafana-test.png" class="" title="grafana">
+
+<p>分流的 yaml 也相當直覺</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">split.smi-spec.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">TrafficSplit</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">podinfo</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">test</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">service:</span> <span class="string">podinfo</span></span><br><span class="line">  <span class="attr">backends:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">service:</span> <span class="string">podinfo</span></span><br><span class="line">    <span class="attr">weight:</span> <span class="number">50</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">service:</span> <span class="string">podinfo-east</span></span><br><span class="line">    <span class="attr">weight:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/ts-dashboard.png" class="" title="grafana">
+
+
+<h2 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h2><img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/wrk-test.png" class="" title="wrk Benchmark">
+
+<p>這邊在 Cluster <code>control</code> 對 Cluster <code>remote</code> 的 podinfo 壓力測試</p>
+<ul>
+<li>這邊比較的基準是直接用 <code>type: LoadBalancer</code> 產生一個 GKE L4 Load Balancer</li>
+<li>linkerd 會在 Cluster <code>control</code> 產生一個 mirrored service podinfo-remote，透過兩邊的 linkerd-gateway 溝通</li>
+</ul>
+<p>環境:</p>
+<ul>
+<li>Cluster <code>control</code>: n2-highcpu-32 regional GKE in Taiwan</li>
+<li>Cluster <code>remote</code>: n2-highcpu-32 regional GKE in Oregon<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wrk -t10 -c500 -d30 --latency http://podinfo-remote:9898</span><br><span class="line">wrk -t10 -c500 -d30 --latency http://34.83.93.113:9898</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<img src="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/benchmark.png" class="" title="benchmark result">
+
+<p>可以看到在 100 connections 也只增加了 7% 的延遲，已經能處理大部分的 micro service 使用場景。<br>在 500 connections 增加了 50%，不過對於 cross region HA 的話，還算可以接受的範圍。</p>
+<blockquote>
+<p>更多 linkerd vs istio 在 single cluster 的比較: <a target="_blank" rel="noopener" href="https://linkerd.io/2019/05/18/linkerd-benchmarks">https://linkerd.io/2019/05/18/linkerd-benchmarks</a></p>
+</blockquote>
+<h1 id="Other-multi-cluster-solutions"><a href="#Other-multi-cluster-solutions" class="headerlink" title="Other multi cluster solutions"></a>Other multi cluster solutions</h1><h2 id="Consul"><a href="#Consul" class="headerlink" title="Consul"></a><a target="_blank" rel="noopener" href="https://learn.hashicorp.com/consul/kubernetes/mesh-gateways">Consul</a></h2><ul>
+<li>Pod injection 大概會長這樣，比起 linkerd 多了 serviceAccount 的部分，任何需要到 remote 的 service 都要加入。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">static-client</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">static-client</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">&#x27;consul.hashicorp.com/connect-inject&#x27;:</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">    <span class="attr">&#x27;consul.hashicorp.com/connect-service-upstreams&#x27;:</span> <span class="string">&#x27;static-server:1234:dc2&#x27;</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">static-client</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">tutum/curl:latest</span></span><br><span class="line">      <span class="attr">command:</span> [<span class="string">&#x27;/bin/sh&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;--&#x27;</span>]</span><br><span class="line">      <span class="attr">args:</span> [<span class="string">&#x27;while true; do sleep 30; done;&#x27;</span>]</span><br><span class="line">  <span class="attr">serviceAccountName:</span> <span class="string">static-client</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不知道為什麼在 service discovery 的部分有時候會需要 2-3 分鐘。</li>
+<li>Latency 多了 50% (Consul Gateway 比 L4 Load Balancer)。</li>
+</ul>
+<h2 id="Istio"><a href="#Istio" class="headerlink" title="Istio"></a><a target="_blank" rel="noopener" href="https://istio.io/latest/docs/setup/install/multicluster/shared">Istio</a></h2><ul>
+<li>跟著 tutorial 做完，也無法連到另外一個 cluster 的服務</li>
+<li>用 GKE addon 或是最新版的 istioctl 都無法部署成功</li>
+</ul>
+<h1 id="目前的問題"><a href="#目前的問題" class="headerlink" title="目前的問題"></a>目前的問題</h1><ul>
+<li>只能接受 HTTP trafic</li>
+</ul>
+<h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><p>不知道是不是先有了部署 Istio 和 Consul 的經驗，部署 linkerd 大概只花了 20-30 分鐘，也可能因為是剛出的文章，所以跑完 tutorial 後能夠正確地顯示結果。相比 Consul 的 tutorial 漏了一堆 configuration，還需要查其他文件才能正確部署成功（大概花了 3-4 小時吧）。Istio 則是完全沒有任何線索繼續。</p>
+<p>相較另外兩套 service mesh，Linkerd 相對的平易近人許多，尤其是 pod injection 和 service discovery 的部分，讓我覺得可控性很高，但又不需要太多 config。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/linkerd/linkerd2/releases/tag/stable-2.8.0">https://github.com/linkerd/linkerd2/releases/tag/stable-2.8.0</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.hashicorp.com/consul/kubernetes/mesh-gateways">https://learn.hashicorp.com/consul/kubernetes/mesh-gateways</a></li>
+<li><a target="_blank" rel="noopener" href="https://istio.io/latest/docs/setup/install/multicluster/shared">https://istio.io/latest/docs/setup/install/multicluster/shared</a></li>
+<li><a target="_blank" rel="noopener" href="https://linkerd.io/2/tasks/installing-multicluster/">https://linkerd.io/2/tasks/installing-multicluster/</a></li>
+<li><a target="_blank" rel="noopener" href="https://linkerd.io/2/tasks/multicluster/">https://linkerd.io/2/tasks/multicluster/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/" data-id="cle73sse3001z01o80jla2zvi" data-title="Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GKE/" rel="tag">GKE</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          AWS Route 53 - 實測 Geolocation Routing
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Kubernetes - Access another cluster services with service account token</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alert/" rel="tag">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CD/" rel="tag">CD</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare/" rel="tag">Cloudflare</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare-Worker/" rel="tag">Cloudflare Worker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Devops/" rel="tag">Devops</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/" rel="tag">Express</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GCP/" rel="tag">GCP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GKE/" rel="tag">GKE</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitLab/" rel="tag">GitLab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Homebrew/" rel="tag">Homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/How-I-Mess-Up-in-Production/" rel="tag">How I Mess Up in Production</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/" rel="tag">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Meetup/" rel="tag">Meetup</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/News/" rel="tag">News</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Play-Framework/" rel="tag">Play Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RDS/" rel="tag">RDS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/S3/" rel="tag">S3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SES/" rel="tag">SES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQS/" rel="tag">SQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/" rel="tag">SSL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Serverless/" rel="tag">Serverless</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software/" rel="tag">Software</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/" rel="tag">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/" rel="tag">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c9-io/" rel="tag">c9.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" rel="tag">讀書心得</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/API/" style="font-size: 10px;">API</a> <a href="/tags/AWS/" style="font-size: 17.5px;">AWS</a> <a href="/tags/Alert/" style="font-size: 10px;">Alert</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/CD/" style="font-size: 16.25px;">CD</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/ChatOps/" style="font-size: 10px;">ChatOps</a> <a href="/tags/Cloudflare/" style="font-size: 10px;">Cloudflare</a> <a href="/tags/Cloudflare-Worker/" style="font-size: 10px;">Cloudflare Worker</a> <a href="/tags/DNS/" style="font-size: 11.25px;">DNS</a> <a href="/tags/DevOps/" style="font-size: 20px;">DevOps</a> <a href="/tags/Devops/" style="font-size: 10px;">Devops</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 13.75px;">EC2</a> <a href="/tags/ElasticSearch/" style="font-size: 11.25px;">ElasticSearch</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/GCP/" style="font-size: 13.75px;">GCP</a> <a href="/tags/GKE/" style="font-size: 13.75px;">GKE</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitLab/" style="font-size: 13.75px;">GitLab</a> <a href="/tags/GitOps/" style="font-size: 15px;">GitOps</a> <a href="/tags/Github/" style="font-size: 12.5px;">Github</a> <a href="/tags/Github-Action/" style="font-size: 10px;">Github Action</a> <a href="/tags/Gradle/" style="font-size: 11.25px;">Gradle</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/Homebrew/" style="font-size: 10px;">Homebrew</a> <a href="/tags/How-I-Mess-Up-in-Production/" style="font-size: 10px;">How I Mess Up in Production</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 18.75px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Linux/" style="font-size: 16.25px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.5px;">Mac</a> <a href="/tags/Meetup/" style="font-size: 11.25px;">Meetup</a> <a href="/tags/MongoDB/" style="font-size: 13.75px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/News/" style="font-size: 11.25px;">News</a> <a href="/tags/Node-js/" style="font-size: 13.75px;">Node.js</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Play-Framework/" style="font-size: 11.25px;">Play Framework</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RDS/" style="font-size: 11.25px;">RDS</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SES/" style="font-size: 10px;">SES</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SSL/" style="font-size: 12.5px;">SSL</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/Security/" style="font-size: 13.75px;">Security</a> <a href="/tags/Serverless/" style="font-size: 10px;">Serverless</a> <a href="/tags/Service-Mesh/" style="font-size: 10px;">Service Mesh</a> <a href="/tags/Software/" style="font-size: 10px;">Software</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Wordpress/" style="font-size: 12.5px;">Wordpress</a> <a href="/tags/c9-io/" style="font-size: 11.25px;">c9.io</a> <a href="/tags/terminal/" style="font-size: 11.25px;">terminal</a> <a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" style="font-size: 10px;">讀書心得</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/">Docker New Retention Policy on 2020-08-13</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/17/How-I-debug-a-certificate-didn-t-renew/">How I debug a certificate didn&#39;t renew</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/">AWS Route 53 - 實測 Geolocation Routing</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/">Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/">Kubernetes - Access another cluster services with service account token</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+      Copyright &copy; 2015-2023 Rammus Xu<br>
+      All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About Me</a>
+  
+    <a href="/tags/DevOps/" class="mobile-nav-link">DevOps</a>
+  
+    <a href="/toolkit" class="mobile-nav-link">Toolkit</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'rammusxu';
+  
+  var disqus_url = 'https://rammusxu.github.io/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

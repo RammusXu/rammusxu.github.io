@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7VTEXK0WQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7VTEXK0WQ');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>透過 IAM 管理用戶存取 RDS | Rammus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="藉由 IAM 發放權限給某些使用者，可以對 RDS 做某些程度的操作。除了能夠更快速地發放、收回權限，對於資料安全性也將更有保障。 以下將介紹透過 IAM 管理用戶存取 RDS 的幾項注意事項：  使用 Signature Version 4 Signing Process，比用戶密碼更加安全。 Token只有 15 分鐘的有效期限，不需要再進行密碼重置。 必須使用 SSL 連接。 能夠使用 IA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="透過 IAM 管理用戶存取 RDS">
+<meta property="og:url" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/index.html">
+<meta property="og:site_name" content="Rammus">
+<meta property="og:description" content="藉由 IAM 發放權限給某些使用者，可以對 RDS 做某些程度的操作。除了能夠更快速地發放、收回權限，對於資料安全性也將更有保障。 以下將介紹透過 IAM 管理用戶存取 RDS 的幾項注意事項：  使用 Signature Version 4 Signing Process，比用戶密碼更加安全。 Token只有 15 分鐘的有效期限，不需要再進行密碼重置。 必須使用 SSL 連接。 能夠使用 IA">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/rds-1.png">
+<meta property="og:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/rds-2.png">
+<meta property="og:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/rds-3.png">
+<meta property="og:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/mysql.png">
+<meta property="og:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/user-arn.png">
+<meta property="og:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/token.png">
+<meta property="og:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/sql-pro.png">
+<meta property="article:published_time" content="2017-09-13T01:47:17.000Z">
+<meta property="article:modified_time" content="2023-02-16T12:53:19.500Z">
+<meta property="article:author" content="Rammus Xu">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="RDS">
+<meta property="article:tag" content="IAM">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rammusxu.github.io/2017/09/13/iam-db-auth/rds-1.png">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rammus</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">A Taiwan Developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About Me</a>
+        
+          <a class="main-nav-link" href="/tags/DevOps/">DevOps</a>
+        
+          <a class="main-nav-link" href="/toolkit">Toolkit</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/RammusXu" target="_blank"></a>
+        
+        
+          <a id="nav-linkedin-link" class="nav-icon" href="https://tw.linkedin.com/in/rammusxu" target="_blank"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rammusxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-iam-db-auth" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/09/13/iam-db-auth/" class="article-date">
+  <time class="dt-published" datetime="2017-09-13T01:47:17.000Z" itemprop="datePublished">2017-09-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      透過 IAM 管理用戶存取 RDS
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>藉由 IAM 發放權限給某些使用者，可以對 RDS 做某些程度的操作。除了能夠更快速地發放、收回權限，對於資料安全性也將更有保障。</p>
+<p>以下將介紹透過 IAM 管理用戶存取 RDS 的幾項注意事項：</p>
+<ol>
+<li>使用 <a target="_blank" rel="noopener" href="http://docs.aws.amazon.com/zh_cn/general/latest/gr/signature-version-4.html">Signature Version 4 Signing Process</a>，比用戶密碼更加安全。</li>
+<li>Token只有 15 分鐘的有效期限，不需要再進行密碼重置。</li>
+<li>必須使用 SSL 連接。</li>
+<li>能夠使用 IAM Auth 的 RDS:<ul>
+<li>MySQL 5.6.34 以上，除了 db.t1.micro, db.m1.small</li>
+<li>MySQL 5.7.16 以上，除了 db.t1.micro, db.m1.small</li>
+<li>Amazon Aurora 1.10 以上，除了 db.t2.small</li>
+</ul>
+</li>
+</ol>
+<a id="more"></a>
+
+<h2 id="前置動作"><a href="#前置動作" class="headerlink" title="前置動作"></a>前置動作</h2><p>如果還沒安裝 aws-cli 的話請參考 <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/cli">AWS 命令列界面</a>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install -U awscli</span><br></pre></td></tr></table></figure>
+
+<p>如果還沒安裝 mysql cli 的話。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">brew install mysql --client-only --universal</span><br></pre></td></tr></table></figure>
+
+<h2 id="建立-RDS-Instance"><a href="#建立-RDS-Instance" class="headerlink" title="建立 RDS Instance"></a>建立 RDS Instance</h2><img src="/2017/09/13/iam-db-auth/rds-1.png" class="" title="要注意 DB Version, Instance 不要選到不支援的種類">
+
+<img src="/2017/09/13/iam-db-auth/rds-2.png" class="" title="注意 IAM DB Authentication 要開啟">
+
+<img src="/2017/09/13/iam-db-auth/rds-3.png" class="" title="建立完後，有幾個需要注意的地方，在後面會用到。">
+
+
+<h2 id="設定-RDS-Instance"><a href="#設定-RDS-Instance" class="headerlink" title="設定 RDS Instance"></a>設定 RDS Instance</h2><p>試著使用 mysql cli 連線到剛剛開好的 instance</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql -h rammus2.[your-endpoint].ap-southeast-1.rds.amazonaws.com -u [your-username] -p</span><br><span class="line">mysql -h rammus2.xxxxxxxx.ap-southeast-1.rds.amazonaws.com -u rammus -p</span><br></pre></td></tr></table></figure>
+
+<img src="/2017/09/13/iam-db-auth/mysql.png" class="">
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE USER iam_user IDENTIFIED WITH AWSAuthenticationPlugin as &#39;RDS&#39;;</span><br><span class="line">GRANT SELECT ON &#96;your-database-name&#96;.* TO &#39;iam_user&#39;@&#39;%&#39; REQUIRE SSL;</span><br></pre></td></tr></table></figure>
+
+<h2 id="在-IAM-User-添加一筆-Permission"><a href="#在-IAM-User-添加一筆-Permission" class="headerlink" title="在 IAM User 添加一筆 Permission"></a>在 IAM User 添加一筆 Permission</h2><img src="/2017/09/13/iam-db-auth/user-arn.png" class="">
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;Version&quot;: &quot;2012-10-17&quot;,</span><br><span class="line">   &quot;Statement&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">         &quot;Effect&quot;: &quot;Allow&quot;,</span><br><span class="line">         &quot;Action&quot;: [</span><br><span class="line">             &quot;rds-db:connect&quot;</span><br><span class="line">         ],</span><br><span class="line">         &quot;Resource&quot;: [</span><br><span class="line">             &quot;arn:aws:rds-db:us-west-2:[user-arn]:dbuser:[resource-id]&#x2F;[new-created-user]&quot;,</span><br><span class="line">         ]</span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-IAM-Auth-連線到-MySQL"><a href="#使用-IAM-Auth-連線到-MySQL" class="headerlink" title="使用 IAM Auth 連線到 MySQL"></a>使用 IAM Auth 連線到 MySQL</h2><p>取得 auth token</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">aws rds generate-db-auth-token \</span><br><span class="line">--hostname rammus2.xxxxxxxx.ap-southeast-1.rds.amazonaws.com \</span><br><span class="line">--port 3306 \</span><br><span class="line">--username iam_user \</span><br><span class="line">--region ap-southeast-1</span><br></pre></td></tr></table></figure>
+
+<img src="/2017/09/13/iam-db-auth/token.png" class="">
+
+<hr>
+<blockquote>
+<p>這邊才是重點，因為 AWS 的文件上沒有提到這幾個重要步驟，讓我卡關卡很久。</p>
+</blockquote>
+<p>必須要使用 SSL 連線，並使用 RDS CA 才能正確連線!</p>
+<p>下載 SSL CA <a target="_blank" rel="noopener" href="https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem">https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem</a></p>
+<p><a target="_blank" rel="noopener" href="http://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html">使用 SSL 加密与数据库实例的连接</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">--ssl-ca&#x3D;~&#x2F;.ssh&#x2F;rds-combined-ca-bundle.pem </span><br></pre></td></tr></table></figure>
+
+<p>必須打開這個 plugin，否則 token 無法正確帶入密碼欄。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">--enable-cleartext-plugin</span><br></pre></td></tr></table></figure>
+
+<h2 id="Oneline-command"><a href="#Oneline-command" class="headerlink" title="Oneline command"></a>Oneline command</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> mysql -u iam_user -h rammus2.xxxxxxxx.ap-southeast-1.rds.amazonaws.com \</span><br><span class="line">-p&#96;aws rds generate-db-auth-token --hostname rammus2.xxxxxxxx.ap-southeast-1.rds.amazonaws.com \</span><br><span class="line">--port 3306 \</span><br><span class="line">--username iam_user \</span><br><span class="line">--region ap-southeast-1&#96; \</span><br><span class="line">--ssl-ca&#x3D;~&#x2F;.ssh&#x2F;rds-combined-ca-bundle.pem \</span><br><span class="line">--enable-cleartext-plugin</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li>对 MySQL 和 Amazon Aurora 使用 IAM 数据库身份验证<br><a target="_blank" rel="noopener" href="http://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">http://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html</a></li>
+<li>IAM認証によるRDS接続を試してみた <a target="_blank" rel="noopener" href="http://dev.classmethod.jp/cloud/aws/iam-auth-rds/">http://dev.classmethod.jp/cloud/aws/iam-auth-rds/</a></li>
+<li>How To Create a New User and Grant Permissions in MySQL <a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql">https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql</a></li>
+</ul>
+<h2 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h2><blockquote>
+<p>出現錯誤 MySQL said: Authentication plugin ‘mysql_clear_password’ cannot be loaded: plugin not enabled</p>
+</blockquote>
+<p>因為 token 字串會被 encrypt，所以必須開啟 cleartext plugin 才能正確送出 token。</p>
+<p>如果是使用 Sequel Pro 的話，要在 Terminal 執行以下指令開啟 App。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN&#x3D;y &#x2F;Applications&#x2F;Sequel\ Pro.app&#x2F;Contents&#x2F;MacOS&#x2F;Sequel\ Pro</span><br></pre></td></tr></table></figure>
+
+<img src="/2017/09/13/iam-db-auth/sql-pro.png" class="">
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2017/09/13/iam-db-auth/" data-id="cle73sseu003601o8b9pufbb1" data-title="透過 IAM 管理用戶存取 RDS" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2017/09/13/iam-db-auth/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IAM/" rel="tag">IAM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDS/" rel="tag">RDS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/25/%E5%9C%A8-Amazon-Linux-%E5%AE%89%E8%A3%9D-SSM-Agent/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          在 Amazon Linux 安裝 SSM Agent
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/04/setup-php-in-macbook/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Setup PHP In Macbook</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alert/" rel="tag">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CD/" rel="tag">CD</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare/" rel="tag">Cloudflare</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare-Worker/" rel="tag">Cloudflare Worker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Devops/" rel="tag">Devops</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/" rel="tag">Express</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GCP/" rel="tag">GCP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GKE/" rel="tag">GKE</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitLab/" rel="tag">GitLab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Homebrew/" rel="tag">Homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/How-I-Mess-Up-in-Production/" rel="tag">How I Mess Up in Production</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/" rel="tag">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Meetup/" rel="tag">Meetup</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/News/" rel="tag">News</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Play-Framework/" rel="tag">Play Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RDS/" rel="tag">RDS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/S3/" rel="tag">S3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SES/" rel="tag">SES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQS/" rel="tag">SQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/" rel="tag">SSL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Serverless/" rel="tag">Serverless</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software/" rel="tag">Software</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/" rel="tag">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/" rel="tag">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c9-io/" rel="tag">c9.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" rel="tag">讀書心得</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/API/" style="font-size: 10px;">API</a> <a href="/tags/AWS/" style="font-size: 17.5px;">AWS</a> <a href="/tags/Alert/" style="font-size: 10px;">Alert</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/CD/" style="font-size: 16.25px;">CD</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/ChatOps/" style="font-size: 10px;">ChatOps</a> <a href="/tags/Cloudflare/" style="font-size: 10px;">Cloudflare</a> <a href="/tags/Cloudflare-Worker/" style="font-size: 10px;">Cloudflare Worker</a> <a href="/tags/DNS/" style="font-size: 11.25px;">DNS</a> <a href="/tags/DevOps/" style="font-size: 20px;">DevOps</a> <a href="/tags/Devops/" style="font-size: 10px;">Devops</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 13.75px;">EC2</a> <a href="/tags/ElasticSearch/" style="font-size: 11.25px;">ElasticSearch</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/GCP/" style="font-size: 13.75px;">GCP</a> <a href="/tags/GKE/" style="font-size: 13.75px;">GKE</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitLab/" style="font-size: 13.75px;">GitLab</a> <a href="/tags/GitOps/" style="font-size: 15px;">GitOps</a> <a href="/tags/Github/" style="font-size: 12.5px;">Github</a> <a href="/tags/Github-Action/" style="font-size: 10px;">Github Action</a> <a href="/tags/Gradle/" style="font-size: 11.25px;">Gradle</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/Homebrew/" style="font-size: 10px;">Homebrew</a> <a href="/tags/How-I-Mess-Up-in-Production/" style="font-size: 10px;">How I Mess Up in Production</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 18.75px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Linux/" style="font-size: 16.25px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.5px;">Mac</a> <a href="/tags/Meetup/" style="font-size: 11.25px;">Meetup</a> <a href="/tags/MongoDB/" style="font-size: 13.75px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/News/" style="font-size: 11.25px;">News</a> <a href="/tags/Node-js/" style="font-size: 13.75px;">Node.js</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Play-Framework/" style="font-size: 11.25px;">Play Framework</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RDS/" style="font-size: 11.25px;">RDS</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SES/" style="font-size: 10px;">SES</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SSL/" style="font-size: 12.5px;">SSL</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/Security/" style="font-size: 13.75px;">Security</a> <a href="/tags/Serverless/" style="font-size: 10px;">Serverless</a> <a href="/tags/Service-Mesh/" style="font-size: 10px;">Service Mesh</a> <a href="/tags/Software/" style="font-size: 10px;">Software</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Wordpress/" style="font-size: 12.5px;">Wordpress</a> <a href="/tags/c9-io/" style="font-size: 11.25px;">c9.io</a> <a href="/tags/terminal/" style="font-size: 11.25px;">terminal</a> <a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" style="font-size: 10px;">讀書心得</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/">Docker New Retention Policy on 2020-08-13</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/17/How-I-debug-a-certificate-didn-t-renew/">How I debug a certificate didn&#39;t renew</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/">AWS Route 53 - 實測 Geolocation Routing</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/">Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/">Kubernetes - Access another cluster services with service account token</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+      Copyright &copy; 2015-2023 Rammus Xu<br>
+      All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About Me</a>
+  
+    <a href="/tags/DevOps/" class="mobile-nav-link">DevOps</a>
+  
+    <a href="/toolkit" class="mobile-nav-link">Toolkit</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'rammusxu';
+  
+  var disqus_url = 'https://rammusxu.github.io/2017/09/13/iam-db-auth/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

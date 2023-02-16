@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: rammusxu.github.io
+Token: 80b54a8fecd019699d48df9905e0a76aab8efda4db502860ec187ffcc510ceaf

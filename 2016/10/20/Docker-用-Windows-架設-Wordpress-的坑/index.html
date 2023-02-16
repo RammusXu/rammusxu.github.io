@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7VTEXK0WQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7VTEXK0WQ');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>Docker - 用 Windows 架設 Wordpress 的坑 | Rammus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="使用 docker-compose 啟動 wordpress，以下介紹幾個幾本用法。  執行當前目錄的 docker-compose.yml。 docker-compose up  在背景執行當前目錄的 docker-compose.yml。 docker-compose up -d  根據當前目錄的 docker-compose，結束相關的容器(container)。 docker-compos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker - 用 Windows 架設 Wordpress 的坑">
+<meta property="og:url" content="https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/index.html">
+<meta property="og:site_name" content="Rammus">
+<meta property="og:description" content="使用 docker-compose 啟動 wordpress，以下介紹幾個幾本用法。  執行當前目錄的 docker-compose.yml。 docker-compose up  在背景執行當前目錄的 docker-compose.yml。 docker-compose up -d  根據當前目錄的 docker-compose，結束相關的容器(container)。 docker-compos">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/wordpress-domain.png">
+<meta property="og:image" content="https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/windows-firewall-1.png">
+<meta property="og:image" content="https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/windows-firewall-2.png">
+<meta property="article:published_time" content="2016-10-20T00:26:46.000Z">
+<meta property="article:modified_time" content="2023-02-16T12:53:19.438Z">
+<meta property="article:author" content="Rammus Xu">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Wordpress">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/wordpress-domain.png">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rammus</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">A Taiwan Developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About Me</a>
+        
+          <a class="main-nav-link" href="/tags/DevOps/">DevOps</a>
+        
+          <a class="main-nav-link" href="/toolkit">Toolkit</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/RammusXu" target="_blank"></a>
+        
+        
+          <a id="nav-linkedin-link" class="nav-icon" href="https://tw.linkedin.com/in/rammusxu" target="_blank"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rammusxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Docker-用-Windows-架設-Wordpress-的坑" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/" class="article-date">
+  <time class="dt-published" datetime="2016-10-20T00:26:46.000Z" itemprop="datePublished">2016-10-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Docker - 用 Windows 架設 Wordpress 的坑
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>使用 <a target="_blank" rel="noopener" href="https://docs.docker.com/compose/gettingstarted/#step-4-build-and-run-your-app-with-compose">docker-compose</a> 啟動 wordpress，以下介紹幾個幾本用法。</p>
+<ul>
+<li><p>執行當前目錄的 <code>docker-compose.yml</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker-compose up</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在背景執行當前目錄的 <code>docker-compose.yml</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根據當前目錄的 docker-compose，結束相關的容器(container)。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>暸解幾種基本的 docker-compose 用法後，現在就來撰寫 wordpress 的 <code>docker-compose.yml</code>。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;2&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:5.7</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;./.data/db:/var/lib/mysql&quot;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">wordpress</span></span><br><span class="line">      <span class="attr">MYSQL_DATABASE:</span> <span class="string">wordpress</span></span><br><span class="line">      <span class="attr">MYSQL_USER:</span> <span class="string">wordpress</span></span><br><span class="line">      <span class="attr">MYSQL_PASSWORD:</span> <span class="string">wordpress</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">wordpress:</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wordpress:latest</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;./web:/var/www/html&quot;</span></span><br><span class="line">    <span class="attr">links:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8000:80&quot;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">WORDPRESS_DB_HOST:</span> <span class="string">db:3306</span></span><br><span class="line">      <span class="attr">WORDPRESS_DB_PASSWORD:</span> <span class="string">wordpress</span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h2><h3 id="pppoe"><a href="#pppoe" class="headerlink" title="pppoe"></a>pppoe</h3><p>記得要設定好固定 ip 才能讓其他人連結。</p>
+<h3 id="wordpress-需要設定-domain"><a href="#wordpress-需要設定-domain" class="headerlink" title="wordpress 需要設定 domain"></a>wordpress 需要設定 domain</h3><img src="/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/wordpress-domain.png" class="">
+
+<h3 id="windows-防火牆輸入規則"><a href="#windows-防火牆輸入規則" class="headerlink" title="windows 防火牆輸入規則"></a>windows 防火牆輸入規則</h3><p>控制台 -&gt; 系統及安全性 -&gt; windows防火牆 -&gt; 進階選項 -&gt; 輸入規則</p>
+<img src="/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/windows-firewall-1.png" class="">
+<img src="/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/windows-firewall-2.png" class="">
+
+<h3 id="Wordpress-上傳檔案時遇到限制檔案大小-2M"><a href="#Wordpress-上傳檔案時遇到限制檔案大小-2M" class="headerlink" title="Wordpress 上傳檔案時遇到限制檔案大小 2M"></a>Wordpress 上傳檔案時遇到限制檔案大小 2M</h3><p><a target="_blank" rel="noopener" href="https://github.com/docker-library/wordpress/issues/10">https://github.com/docker-library/wordpress/issues/10</a></p>
+<p>可以透過自定義 <code>upload.ini</code>，增加限制。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">file_uploads &#x3D; On</span><br><span class="line">memory_limit &#x3D; 64M</span><br><span class="line">upload_max_filesize &#x3D; 64M</span><br><span class="line">post_max_size &#x3D; 64M</span><br><span class="line">max_execution_time &#x3D; 600</span><br></pre></td></tr></table></figure>
+
+<p>新增 <code>upload.ini</code> 後，要記得在 <code>docker-compose.yml</code> 中透過 volumes 取代預設的 <code>upload.ini</code>。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">db:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">mysql:latest</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">&quot;PASSWORD-HERE&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">wordpress:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">wordpress:latest</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">  <span class="attr">links:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">db:mysql</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">uploads.ini:/usr/local/etc/php/conf.d/uploads.ini</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/wordpress/">https://docs.docker.com/compose/wordpress/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/" data-id="cle73ssct000o01o8bh3n91nb" data-title="Docker - 用 Windows 架設 Wordpress 的坑" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/20/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97-%E6%95%8F%E6%8D%B7%E8%88%87Scrum%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E9%80%9F%E6%88%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          讀書心得 - 敏捷與 Scrum 軟體開發速成
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/19/Wordpress-%E6%90%AC%E5%AE%B6%E6%AD%A5%E9%A9%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Wordpress 搬家步驟</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alert/" rel="tag">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CD/" rel="tag">CD</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare/" rel="tag">Cloudflare</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare-Worker/" rel="tag">Cloudflare Worker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Devops/" rel="tag">Devops</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/" rel="tag">Express</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GCP/" rel="tag">GCP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GKE/" rel="tag">GKE</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitLab/" rel="tag">GitLab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Homebrew/" rel="tag">Homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/How-I-Mess-Up-in-Production/" rel="tag">How I Mess Up in Production</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/" rel="tag">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Meetup/" rel="tag">Meetup</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/News/" rel="tag">News</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Play-Framework/" rel="tag">Play Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RDS/" rel="tag">RDS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/S3/" rel="tag">S3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SES/" rel="tag">SES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQS/" rel="tag">SQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/" rel="tag">SSL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Serverless/" rel="tag">Serverless</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software/" rel="tag">Software</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/" rel="tag">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/" rel="tag">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c9-io/" rel="tag">c9.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" rel="tag">讀書心得</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/API/" style="font-size: 10px;">API</a> <a href="/tags/AWS/" style="font-size: 17.5px;">AWS</a> <a href="/tags/Alert/" style="font-size: 10px;">Alert</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/CD/" style="font-size: 16.25px;">CD</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/ChatOps/" style="font-size: 10px;">ChatOps</a> <a href="/tags/Cloudflare/" style="font-size: 10px;">Cloudflare</a> <a href="/tags/Cloudflare-Worker/" style="font-size: 10px;">Cloudflare Worker</a> <a href="/tags/DNS/" style="font-size: 11.25px;">DNS</a> <a href="/tags/DevOps/" style="font-size: 20px;">DevOps</a> <a href="/tags/Devops/" style="font-size: 10px;">Devops</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 13.75px;">EC2</a> <a href="/tags/ElasticSearch/" style="font-size: 11.25px;">ElasticSearch</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/GCP/" style="font-size: 13.75px;">GCP</a> <a href="/tags/GKE/" style="font-size: 13.75px;">GKE</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitLab/" style="font-size: 13.75px;">GitLab</a> <a href="/tags/GitOps/" style="font-size: 15px;">GitOps</a> <a href="/tags/Github/" style="font-size: 12.5px;">Github</a> <a href="/tags/Github-Action/" style="font-size: 10px;">Github Action</a> <a href="/tags/Gradle/" style="font-size: 11.25px;">Gradle</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/Homebrew/" style="font-size: 10px;">Homebrew</a> <a href="/tags/How-I-Mess-Up-in-Production/" style="font-size: 10px;">How I Mess Up in Production</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 18.75px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Linux/" style="font-size: 16.25px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.5px;">Mac</a> <a href="/tags/Meetup/" style="font-size: 11.25px;">Meetup</a> <a href="/tags/MongoDB/" style="font-size: 13.75px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/News/" style="font-size: 11.25px;">News</a> <a href="/tags/Node-js/" style="font-size: 13.75px;">Node.js</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Play-Framework/" style="font-size: 11.25px;">Play Framework</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RDS/" style="font-size: 11.25px;">RDS</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SES/" style="font-size: 10px;">SES</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SSL/" style="font-size: 12.5px;">SSL</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/Security/" style="font-size: 13.75px;">Security</a> <a href="/tags/Serverless/" style="font-size: 10px;">Serverless</a> <a href="/tags/Service-Mesh/" style="font-size: 10px;">Service Mesh</a> <a href="/tags/Software/" style="font-size: 10px;">Software</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Wordpress/" style="font-size: 12.5px;">Wordpress</a> <a href="/tags/c9-io/" style="font-size: 11.25px;">c9.io</a> <a href="/tags/terminal/" style="font-size: 11.25px;">terminal</a> <a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" style="font-size: 10px;">讀書心得</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/">Docker New Retention Policy on 2020-08-13</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/17/How-I-debug-a-certificate-didn-t-renew/">How I debug a certificate didn&#39;t renew</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/">AWS Route 53 - 實測 Geolocation Routing</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/">Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/">Kubernetes - Access another cluster services with service account token</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+      Copyright &copy; 2015-2023 Rammus Xu<br>
+      All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About Me</a>
+  
+    <a href="/tags/DevOps/" class="mobile-nav-link">DevOps</a>
+  
+    <a href="/toolkit" class="mobile-nav-link">Toolkit</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'rammusxu';
+  
+  var disqus_url = 'https://rammusxu.github.io/2016/10/20/Docker-%E7%94%A8-Windows-%E6%9E%B6%E8%A8%AD-Wordpress-%E7%9A%84%E5%9D%91/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

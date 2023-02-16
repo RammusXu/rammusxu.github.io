@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7VTEXK0WQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7VTEXK0WQ');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>GitOps - Argo CD Note | Rammus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Argo CD 目前市面上唯一具有完整 UI 的 GitOps 工具，簡單又直覺的操作以及完整的文件，很值得花幾個小時去玩看看。    Get Startedhttps:&#x2F;&#x2F;argoproj.github.io&#x2F;argo-cd&#x2F;getting_started&#x2F; kubectl create namespace argocdkubectl apply -n argocd -f https:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitOps - Argo CD Note">
+<meta property="og:url" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/index.html">
+<meta property="og:site_name" content="Rammus">
+<meta property="og:description" content="Argo CD 目前市面上唯一具有完整 UI 的 GitOps 工具，簡單又直覺的操作以及完整的文件，很值得花幾個小時去玩看看。    Get Startedhttps:&#x2F;&#x2F;argoproj.github.io&#x2F;argo-cd&#x2F;getting_started&#x2F; kubectl create namespace argocdkubectl apply -n argocd -f https:">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/argo-ui.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/login.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/create-argocd.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/rollback.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/bg-v1.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/bg-v2.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/bg-v2-2.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/bg-resume.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/bg-resume-2.png">
+<meta property="og:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/argo-rollback-suggestions.png">
+<meta property="article:published_time" content="2019-07-16T00:34:47.000Z">
+<meta property="article:modified_time" content="2023-02-16T12:53:19.441Z">
+<meta property="article:author" content="Rammus Xu">
+<meta property="article:tag" content="Kubernetes">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="GitOps">
+<meta property="article:tag" content="CD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/argo-ui.png">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rammus</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">A Taiwan Developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About Me</a>
+        
+          <a class="main-nav-link" href="/tags/DevOps/">DevOps</a>
+        
+          <a class="main-nav-link" href="/toolkit">Toolkit</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/RammusXu" target="_blank"></a>
+        
+        
+          <a id="nav-linkedin-link" class="nav-icon" href="https://tw.linkedin.com/in/rammusxu" target="_blank"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rammusxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-GitOps-Argo-CD-Note" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/07/16/GitOps-Argo-CD-Note/" class="article-date">
+  <time class="dt-published" datetime="2019-07-16T00:34:47.000Z" itemprop="datePublished">2019-07-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      GitOps - Argo CD Note
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://github.com/argoproj/argo-cd">Argo CD</a> 目前市面上唯一具有完整 UI 的 GitOps 工具，簡單又直覺的操作以及完整的文件，很值得花幾個小時去玩看看。</p>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/argo-ui.png" class="" title="Web UI">
+<img src="/2019/07/16/GitOps-Argo-CD-Note/login.png" class="">
+
+<h2 id="Get-Started"><a href="#Get-Started" class="headerlink" title="Get Started"></a>Get Started</h2><p><a target="_blank" rel="noopener" href="https://argoproj.github.io/argo-cd/getting_started/">https://argoproj.github.io/argo-cd/getting_started/</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl create namespace argocd</span><br><span class="line">kubectl apply -n argocd -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;argoproj&#x2F;argo-cd&#x2F;stable&#x2F;manifests&#x2F;install.yaml</span><br><span class="line">kubectl config set-context --current --namespace&#x3D;argocd</span><br></pre></td></tr></table></figure>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/create-argocd.png" class="" title="Create Argo CD">
+
+<a id="more"></a>
+
+<p>安裝 Argo CLI</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">brew tap argoproj&#x2F;tap</span><br><span class="line">brew install argoproj&#x2F;tap&#x2F;argocd</span><br></pre></td></tr></table></figure>
+
+<p>預設的 argo service 不會 expose，先改成 <code>LoadBalancer</code>，方便 Debug。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl patch svc argocd-server -n argocd -p &#39;&#123;&quot;spec&quot;: &#123;&quot;type&quot;: &quot;LoadBalancer&quot;&#125;&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>取得 admin 密碼</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl get pods -n argocd -l app.kubernetes.io&#x2F;name&#x3D;argocd-server -o name | cut -d&#39;&#x2F;&#39; -f 2</span><br></pre></td></tr></table></figure>
+
+<p>重設密碼 <a target="_blank" rel="noopener" href="https://github.com/argoproj/argo-cd/blob/master/docs/faq.md#i-forgot-the-admin-password-how-do-i-reset-it">https://github.com/argoproj/argo-cd/blob/master/docs/faq.md#i-forgot-the-admin-password-how-do-i-reset-it</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># password: rammus</span><br><span class="line">kubectl -n argocd patch secret argocd-secret \</span><br><span class="line">  -p &quot;&#123;\&quot;data\&quot;: \</span><br><span class="line">    &#123;\</span><br><span class="line">      \&quot;admin.password\&quot;: \&quot;$(echo -n &#39;$2a$10$yAfkcG7WZasNvIp9etc6guOg2MeU&#x2F;PcK.AEpWWgh1r7UBoPnNJtU.&#39; | base64)\&quot;, \</span><br><span class="line">      \&quot;admin.passwordMtime\&quot;: \&quot;$(date +%FT%T%Z | base64)\&quot; \</span><br><span class="line">  &#125;&#125;&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Clean"><a href="#Clean" class="headerlink" title="Clean"></a>Clean</h2><p>刪除 namespace 就會自動 cascade 底下所有資源了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl delete ns argocd</span><br></pre></td></tr></table></figure>
+
+<h2 id="行為"><a href="#行為" class="headerlink" title="行為"></a>行為</h2><blockquote>
+<p>auto-sync 不能 rollback</p>
+</blockquote>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/rollback.png" class="" title="Create Argo CD">
+
+<blockquote>
+<p>Argo CD polls Git repositories every three minutes to detect changes to the manifests.<br>(<a target="_blank" rel="noopener" href="https://argoproj.github.io/argo-cd/operator-manual/webhook/#overview">source</a>)</p>
+</blockquote>
+<blockquote>
+<p>最好使用不變的路徑. (<a target="_blank" rel="noopener" href="https://argoproj.github.io/argo-cd/user-guide/best_practices/#ensuring-manifests-at-git-revisions-are-truly-immutable">source</a>)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">✅ github.com&#x2F;argoproj&#x2F;argo-cd&#x2F;&#x2F;manifests&#x2F;cluster-install?ref&#x3D;v0.11.1</span><br><span class="line">❌ github.com&#x2F;argoproj&#x2F;argo-cd&#x2F;&#x2F;manifests&#x2F;cluster-install</span><br></pre></td></tr></table></figure>
+
+<h2 id="Blue-Green-Deploy"><a href="#Blue-Green-Deploy" class="headerlink" title="Blue/Green Deploy"></a>Blue/Green Deploy</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl create namespace argo-rollouts</span><br><span class="line">kubectl apply -n argo-rollouts -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;argoproj&#x2F;argo-rollouts&#x2F;stable&#x2F;manifests&#x2F;install.yaml</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">namespace&#x2F;argo-rollouts created</span><br><span class="line">customresourcedefinition.apiextensions.k8s.io&#x2F;rollouts.argoproj.io created</span><br><span class="line">serviceaccount&#x2F;argo-rollouts created</span><br><span class="line">role.rbac.authorization.k8s.io&#x2F;argo-rollouts-role created</span><br><span class="line">clusterrole.rbac.authorization.k8s.io&#x2F;argo-rollouts-aggregate-to-admin created</span><br><span class="line">clusterrole.rbac.authorization.k8s.io&#x2F;argo-rollouts-aggregate-to-edit created</span><br><span class="line">clusterrole.rbac.authorization.k8s.io&#x2F;argo-rollouts-aggregate-to-view created</span><br><span class="line">clusterrole.rbac.authorization.k8s.io&#x2F;argo-rollouts-clusterrole created</span><br><span class="line">rolebinding.rbac.authorization.k8s.io&#x2F;argo-rollouts-role-binding created</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io&#x2F;argo-rollouts-clusterrolebinding created</span><br><span class="line">service&#x2F;argo-rollouts-metrics created</span><br><span class="line">deployment.apps&#x2F;argo-rollouts created</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/RammusXu/argo-demo/blob/master/bg/demo.yaml">https://github.com/RammusXu/argo-demo/blob/master/bg/demo.yaml</a></p>
+<p>Create:</p>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/bg-v1.png" class="">
+<p>Update image:</p>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/bg-v2.png" class="">
+<p>preview-service 會連結到新的 pods:</p>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/bg-v2-2.png" class="">
+<p>確認無誤後，繼續 rollout:</p>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/bg-resume.png" class="">
+<p>rollout 成功後，preview-service 的 pod 也會跟著清掉:</p>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/bg-resume-2.png" class="">
+
+<blockquote>
+<p>如果想要 rollback，可以參考:</p>
+</blockquote>
+<img src="/2019/07/16/GitOps-Argo-CD-Note/argo-rollback-suggestions.png" class="">
+
+<p>Ref:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://argoproj.github.io/argo-rollouts/">https://argoproj.github.io/argo-rollouts/</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.argoproj.io/introducing-argo-rollouts-59dd0fad476c">https://blog.argoproj.io/introducing-argo-rollouts-59dd0fad476c</a></li>
+</ul>
+<h2 id="Read-More"><a href="#Read-More" class="headerlink" title="Read More"></a>Read More</h2><ul>
+<li><a href="/2019/07/16/GitOps-Comparison-Argo-Flux/" title="GitOps Comparison - Argo, Flux">GitOps Comparison - Argo, Flux</a></li>
+<li><a href="/2019/07/03/gitops-flux-note/" title="GitOps - Flux 心得">GitOps - Flux 心得</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/" data-id="cle73ssd2001201o87mducplq" data-title="GitOps - Argo CD Note" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CD/" rel="tag">CD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/07/16/GitOps-Comparison-Argo-Flux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          GitOps Comparison - Argo, Flux
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/11/List-GCR-Public-Images/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">List GCR Public Images</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alert/" rel="tag">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CD/" rel="tag">CD</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare/" rel="tag">Cloudflare</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare-Worker/" rel="tag">Cloudflare Worker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Devops/" rel="tag">Devops</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/" rel="tag">Express</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GCP/" rel="tag">GCP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GKE/" rel="tag">GKE</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitLab/" rel="tag">GitLab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Homebrew/" rel="tag">Homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/How-I-Mess-Up-in-Production/" rel="tag">How I Mess Up in Production</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/" rel="tag">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Meetup/" rel="tag">Meetup</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/News/" rel="tag">News</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Play-Framework/" rel="tag">Play Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RDS/" rel="tag">RDS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/S3/" rel="tag">S3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SES/" rel="tag">SES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQS/" rel="tag">SQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/" rel="tag">SSL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Serverless/" rel="tag">Serverless</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software/" rel="tag">Software</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/" rel="tag">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/" rel="tag">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c9-io/" rel="tag">c9.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" rel="tag">讀書心得</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/API/" style="font-size: 10px;">API</a> <a href="/tags/AWS/" style="font-size: 17.5px;">AWS</a> <a href="/tags/Alert/" style="font-size: 10px;">Alert</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/CD/" style="font-size: 16.25px;">CD</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/ChatOps/" style="font-size: 10px;">ChatOps</a> <a href="/tags/Cloudflare/" style="font-size: 10px;">Cloudflare</a> <a href="/tags/Cloudflare-Worker/" style="font-size: 10px;">Cloudflare Worker</a> <a href="/tags/DNS/" style="font-size: 11.25px;">DNS</a> <a href="/tags/DevOps/" style="font-size: 20px;">DevOps</a> <a href="/tags/Devops/" style="font-size: 10px;">Devops</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 13.75px;">EC2</a> <a href="/tags/ElasticSearch/" style="font-size: 11.25px;">ElasticSearch</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/GCP/" style="font-size: 13.75px;">GCP</a> <a href="/tags/GKE/" style="font-size: 13.75px;">GKE</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitLab/" style="font-size: 13.75px;">GitLab</a> <a href="/tags/GitOps/" style="font-size: 15px;">GitOps</a> <a href="/tags/Github/" style="font-size: 12.5px;">Github</a> <a href="/tags/Github-Action/" style="font-size: 10px;">Github Action</a> <a href="/tags/Gradle/" style="font-size: 11.25px;">Gradle</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/Homebrew/" style="font-size: 10px;">Homebrew</a> <a href="/tags/How-I-Mess-Up-in-Production/" style="font-size: 10px;">How I Mess Up in Production</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 18.75px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Linux/" style="font-size: 16.25px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.5px;">Mac</a> <a href="/tags/Meetup/" style="font-size: 11.25px;">Meetup</a> <a href="/tags/MongoDB/" style="font-size: 13.75px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/News/" style="font-size: 11.25px;">News</a> <a href="/tags/Node-js/" style="font-size: 13.75px;">Node.js</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Play-Framework/" style="font-size: 11.25px;">Play Framework</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RDS/" style="font-size: 11.25px;">RDS</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SES/" style="font-size: 10px;">SES</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SSL/" style="font-size: 12.5px;">SSL</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/Security/" style="font-size: 13.75px;">Security</a> <a href="/tags/Serverless/" style="font-size: 10px;">Serverless</a> <a href="/tags/Service-Mesh/" style="font-size: 10px;">Service Mesh</a> <a href="/tags/Software/" style="font-size: 10px;">Software</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Wordpress/" style="font-size: 12.5px;">Wordpress</a> <a href="/tags/c9-io/" style="font-size: 11.25px;">c9.io</a> <a href="/tags/terminal/" style="font-size: 11.25px;">terminal</a> <a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" style="font-size: 10px;">讀書心得</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/">Docker New Retention Policy on 2020-08-13</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/17/How-I-debug-a-certificate-didn-t-renew/">How I debug a certificate didn&#39;t renew</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/">AWS Route 53 - 實測 Geolocation Routing</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/">Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/">Kubernetes - Access another cluster services with service account token</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+      Copyright &copy; 2015-2023 Rammus Xu<br>
+      All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About Me</a>
+  
+    <a href="/tags/DevOps/" class="mobile-nav-link">DevOps</a>
+  
+    <a href="/toolkit" class="mobile-nav-link">Toolkit</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'rammusxu';
+  
+  var disqus_url = 'https://rammusxu.github.io/2019/07/16/GitOps-Argo-CD-Note/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

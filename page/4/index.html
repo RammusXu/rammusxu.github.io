@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7VTEXK0WQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E7VTEXK0WQ');
+</script>
+<!-- End Google Analytics -->
+
+  
+  <title>Rammus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="個人紀錄一些技術文件或解決問題的思維">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rammus">
+<meta property="og:url" content="https://rammusxu.github.io/page/4/index.html">
+<meta property="og:site_name" content="Rammus">
+<meta property="og:description" content="個人紀錄一些技術文件或解決問題的思維">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Rammus Xu">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Rammus</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">A Taiwan Developer</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About Me</a>
+        
+          <a class="main-nav-link" href="/tags/DevOps/">DevOps</a>
+        
+          <a class="main-nav-link" href="/toolkit">Toolkit</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/RammusXu" target="_blank"></a>
+        
+        
+          <a id="nav-linkedin-link" class="nav-icon" href="https://tw.linkedin.com/in/rammusxu" target="_blank"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜尋"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rammusxu.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Use-docker-to-test-GCP-service-account-permission" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/12/17/Use-docker-to-test-GCP-service-account-permission/" class="article-date">
+  <time class="dt-published" datetime="2019-12-17T00:16:48.000Z" itemprop="datePublished">2019-12-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/12/17/Use-docker-to-test-GCP-service-account-permission/">Use docker to test GCP service account permission (No personal docker image used)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本篇文章會使用 google public image: <code>gcr.io/cloud-builders/gsutil</code>，並用 bash -c 將 token 傳入 container。示範如何不安裝 google sdk 測試 gcp service account。</p>
+<p>用 <code>docker run -it --rm --entrypoint bash &lt;image&gt;</code> 與 container 互動。</p>
+<p>#docker #docker-tips #gcp #service-account #gcloud-auth #gcs</p>
+<img src="/2019/12/17/Use-docker-to-test-GCP-service-account-permission/docker-run.png" class="" title="Docker run">
+
+<h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2><ul>
+<li>從 GCP export service-account.json</li>
+<li>Docker</li>
+</ul>
+<h2 id="Let’s-Go"><a href="#Let’s-Go" class="headerlink" title="Let’s Go"></a>Let’s Go</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SA&#x3D;$(cat service-account.json | base64)</span><br><span class="line">docker run -it --rm --entrypoint bash gcr.io&#x2F;cloud-builders&#x2F;gsutil -c &quot;</span><br><span class="line">        echo $SA | base64 -d &gt; sa.json</span><br><span class="line">        gcloud auth activate-service-account --key-file&#x3D;sa.json</span><br><span class="line">        bash</span><br><span class="line">    &quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>用 gsutil 測試看看權限</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo hello &gt; test.txt</span><br><span class="line">gsutil cp test.txt gs:&#x2F;&#x2F;&lt;replace_this_with_your_bucket&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果 service account 沒有 bucket permission:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">AccessDeniedException: 403 xxxxx@xxxx.iam.gserviceaccount.com does not have storage.objects.create access to xxxxx.xxx&#x2F;test.txt.</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2019/12/17/Use-docker-to-test-GCP-service-account-permission/" data-id="cle73ssee002g01o833j57j96" data-title="Use docker to test GCP service account permission (No personal docker image used)" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2019/12/17/Use-docker-to-test-GCP-service-account-permission/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCP/" rel="tag">GCP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Integrate-Grafana-with-Slack-and-Hubot" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/19/Integrate-Grafana-with-Slack-and-Hubot/" class="article-date">
+  <time class="dt-published" datetime="2019-11-19T00:15:11.000Z" itemprop="datePublished">2019-11-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/11/19/Integrate-Grafana-with-Slack-and-Hubot/">使用 Hubot 整合 Slack 與 Grafana</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>起因：老闆想要用手機看 Grafana 的某個 Panel，叫我想個辦法 (・ε・)</p>
+</blockquote>
+<p>本篇文章將會使用 <a target="_blank" rel="noopener" href="https://github.com/stephenyeargin/hubot-grafana">hutbot-grafana</a> 整合 Slack 和 Grafana，使用者可以透過 Chatbot 將 Grafana 的數據直接存成圖片，上傳 Slack。<br>如下圖展示：</p>
+<img src="/2019/11/19/Integrate-Grafana-with-Slack-and-Hubot/demo.png" class="" title="You will get this after this tutorial">
+
+<h3 id="本篇文章不會提到："><a href="#本篇文章不會提到：" class="headerlink" title="本篇文章不會提到："></a>本篇文章不會提到：</h3><ul>
+<li>Grafana Setup</li>
+<li>NodeJS Setup</li>
+</ul>
+<h3 id="使用到的工具："><a href="#使用到的工具：" class="headerlink" title="使用到的工具："></a>使用到的工具：</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/yo">yo - 快速建立專案的工具</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stephenyeargin/hubot-grafana">hutbot-grafana - 使用 Slack 查詢 Grafana Dashboard</a></li>
+<li><a target="_blank" rel="noopener" href="https://hubot.github.com/">Hubot - ChatOps Framework</a></li>
+<li><a target="_blank" rel="noopener" href="https://slack.com/">Slack - 2019 最好用的辦公通訊軟體</a></li>
+</ul>
+<h2 id="Project-Setup"><a href="#Project-Setup" class="headerlink" title="Project Setup"></a>Project Setup</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir grafana-bot</span><br><span class="line">cd grafana-bot</span><br><span class="line"></span><br><span class="line">npm install -g yo generator-hubot</span><br><span class="line">yo hubot</span><br><span class="line">npm install hubot-grafana --save</span><br></pre></td></tr></table></figure>
+
+<p>Add <code>hubot-grafana</code> in <code>external-scripts.json</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  ...</span><br><span class="line">  &quot;hubot-grafana&quot;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2019/11/19/Integrate-Grafana-with-Slack-and-Hubot/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2019/11/19/Integrate-Grafana-with-Slack-and-Hubot/" data-id="cle73ssdy001p01o83h4whrwx" data-title="使用 Hubot 整合 Slack 與 Grafana" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2019/11/19/Integrate-Grafana-with-Slack-and-Hubot/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-k8s-Use-crt-and-key-in-Ingress" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/06/k8s-Use-crt-and-key-in-Ingress/" class="article-date">
+  <time class="dt-published" datetime="2019-11-06T22:03:09.000Z" itemprop="datePublished">2019-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/11/06/k8s-Use-crt-and-key-in-Ingress/">Kubernetes: Use .crt and .key in Ingress</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>記錄如何在 Kubernetes 中使用 <strong>GoDaddy</strong> 申請的 .crt .keys，以及使用 <code>curl</code>, <code>openssl</code> 檢查 certificate。</p>
+<h2 id="本篇文章會用到的-resources"><a href="#本篇文章會用到的-resources" class="headerlink" title="本篇文章會用到的 resources:"></a>本篇文章會用到的 resources:</h2><ul>
+<li>Nginx Ingress Controller: 才能夠使用 Ingress<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl apply -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kubernetes&#x2F;ingress-nginx&#x2F;master&#x2F;deploy&#x2F;static&#x2F;mandatory.yaml</span><br><span class="line">kubectl apply -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kubernetes&#x2F;ingress-nginx&#x2F;master&#x2F;deploy&#x2F;static&#x2F;provider&#x2F;cloud-generic.yaml</span><br></pre></td></tr></table></figure></li>
+<li>Deployment,Service,Ingress: 可以參考 <a target="_blank" rel="noopener" href="https://github.com/RammusXu/toolkit/tree/master/k8s/ingress">https://github.com/RammusXu/toolkit/tree/master/k8s/ingress</a><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl apply -k .</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: extensions&#x2F;v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: demo-ingress</span><br><span class="line">  annotations:</span><br><span class="line">    kubernetes.io&#x2F;ingress.class: nginx</span><br><span class="line">spec:</span><br><span class="line">  tls:</span><br><span class="line">  - secretName: rammus-tls</span><br><span class="line">  rules:</span><br><span class="line">  - http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: &#x2F;</span><br><span class="line">        backend:</span><br><span class="line">          serviceName: helloweb-service</span><br><span class="line">          servicePort: 8080</span><br><span class="line">    host: rammus.tw</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="當你從-GoDaddy-拿到-certificate，應該會有這些檔案"><a href="#當你從-GoDaddy-拿到-certificate，應該會有這些檔案" class="headerlink" title="當你從 GoDaddy 拿到 certificate，應該會有這些檔案:"></a>當你從 GoDaddy 拿到 certificate，應該會有這些檔案:</h2><ul>
+<li>xxxx.crt: 你申請的 domain 的 cert<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">...</span><br><span class="line">-----END CERTIFICATE-----</span><br></pre></td></tr></table></figure></li>
+<li>xxxx.pem: 跟 xxxx.crt 一樣的東西</li>
+<li>gd_bundle-g2-g1.crt: GoDaddy 的 Intermediate cert<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">...</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">...</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">...</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>xxxx.key: 和 xxxx.crt 一對的私鑰<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-----BEGIN PRIVATE KEY-----</span><br><span class="line">...</span><br><span class="line">-----END PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>接下來只要將 Intermediate cert 接在 domain cert 後面，產生 chain.crt，並匯入 kubernetes 的 Secret。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat xxxx.crt gd_bundle-g2-g1.crt &gt; chain.crt</span><br><span class="line">kubectl create secret tls --cert chain.crt --key xxxx.key rammus-tls</span><br></pre></td></tr></table></figure>
+
+<h2 id="測試-Certificate-是否正確"><a href="#測試-Certificate-是否正確" class="headerlink" title="測試 Certificate 是否正確"></a>測試 Certificate 是否正確</h2><p></p>
+        
+          <p class="article-more-link">
+            <a href="/2019/11/06/k8s-Use-crt-and-key-in-Ingress/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2019/11/06/k8s-Use-crt-and-key-in-Ingress/" data-id="cle73ssf6003j01o896yj0udx" data-title="Kubernetes: Use .crt and .key in Ingress" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2019/11/06/k8s-Use-crt-and-key-in-Ingress/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-k8s-Deleting-Namespace-Stuck-at-Terminating-State" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/05/k8s-Deleting-Namespace-Stuck-at-Terminating-State/" class="article-date">
+  <time class="dt-published" datetime="2019-11-05T23:31:07.000Z" itemprop="datePublished">2019-11-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/11/05/k8s-Deleting-Namespace-Stuck-at-Terminating-State/">Kubernetes: Deleting Namespace Stuck at Terminating State</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>有時候會發現 namespace 一直在 teminating，不會結束。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error from server (Conflict): Operation cannot be fulfilled on namespaces &quot;demo&quot;:</span><br><span class="line">The system is ensuring all content is removed from this namespace. Upon completion, </span><br><span class="line">this namespace will automatically be purged by the system.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>開啟一個 terminal 執行:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~ kubectl proxy</span><br><span class="line">Starting to serve on 127.0.0.1:8001</span><br></pre></td></tr></table></figure>
+
+<p>另一個 terminal 執行:</p>
+<blockquote>
+<p>把 ns=<code>demo</code> 換成你想要刪除的 namespace </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ns&#x3D;demo</span><br><span class="line">kubectl get namespace $ns -o json |sed &#39;s&#x2F;&quot;kubernetes&quot;&#x2F;&#x2F;g&#39; &gt; tmp.json</span><br><span class="line">curl -k -H &quot;Content-Type: application&#x2F;json&quot; -X PUT --data-binary @tmp.json http:&#x2F;&#x2F;127.0.0.1:8001&#x2F;api&#x2F;v1&#x2F;namespaces&#x2F;$ns&#x2F;finalize</span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ns&#x3D;demo</span><br><span class="line">curl -X PUT \</span><br><span class="line">    --data-binary @&lt;(kubectl get namespace $ns -o json | sed &#39;s&#x2F;&quot;kubernetes&quot;&#x2F;&#x2F;g&#39;) \</span><br><span class="line">    -H &quot;Content-Type: application&#x2F;json&quot; \</span><br><span class="line">    http:&#x2F;&#x2F;127.0.0.1:8001&#x2F;api&#x2F;v1&#x2F;namespaces&#x2F;$ns&#x2F;finalize</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/11/05/k8s-Deleting-Namespace-Stuck-at-Terminating-State/problem-solved.jpg" class="" title="Problem Solved">
+
+<h2 id="Inspired-by"><a href="#Inspired-by" class="headerlink" title="Inspired by"></a>Inspired by</h2><p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes/issues/60807#issuecomment-408599873">https://github.com/kubernetes/kubernetes/issues/60807#issuecomment-408599873</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2019/11/05/k8s-Deleting-Namespace-Stuck-at-Terminating-State/" data-id="cle73ssf2003g01o8cko486i0" data-title="Kubernetes: Deleting Namespace Stuck at Terminating State" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2019/11/05/k8s-Deleting-Namespace-Stuck-at-Terminating-State/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Github-Action-YAML-format" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/10/09/Github-Action-YAML-format/" class="article-date">
+  <time class="dt-published" datetime="2019-10-09T02:42:57.000Z" itemprop="datePublished">2019-10-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/10/09/Github-Action-YAML-format/">Github Action - 更換成 beta v2 新的格式 (yaml)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="只在-master-branch-才會執行-job。"><a href="#只在-master-branch-才會執行-job。" class="headerlink" title="只在 master branch 才會執行 job。"></a>只在 <code>master</code> branch 才會執行 job。</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if: github.ref &#x3D;&#x3D; &#39;refs&#x2F;heads&#x2F;master&#39;</span><br></pre></td></tr></table></figure>
+<p>因為 push event 會發生在所有 branch，可以透過這個方式限制：只有在 master 才要 publish。</p>
+<p>ref:<a target="_blank" rel="noopener" href="https://github.community/t5/GitHub-Actions/GitHub-Actions-branch-conditional/m-p/29825#M171">https://github.community/t5/GitHub-Actions/GitHub-Actions-branch-conditional/m-p/29825#M171</a></p>
+<hr>
+<h2 id="目前限制-2019-10-09"><a href="#目前限制-2019-10-09" class="headerlink" title="目前限制 2019-10-09"></a>目前限制 2019-10-09</h2><h3 id="Not-cache-artifacts-and-packages-We-appreciate-the-feedback-it’s-clear-to-us-that-this-is-necessary-We’re-working-on-caching-packages-and-artifacts-between-workflow-executions-we’ll-have-it-by-mid-November"><a href="#Not-cache-artifacts-and-packages-We-appreciate-the-feedback-it’s-clear-to-us-that-this-is-necessary-We’re-working-on-caching-packages-and-artifacts-between-workflow-executions-we’ll-have-it-by-mid-November" class="headerlink" title="Not cache artifacts and packages: We appreciate the feedback, it’s clear to us that this is necessary.  We’re working on caching packages and artifacts between workflow executions, we’ll have it by mid-November."></a>Not cache artifacts and packages: <a target="_blank" rel="noopener" href="https://github.community/t5/GitHub-Actions/Caching-files-between-GitHub-Action-executions/m-p/30974/highlight/true#M630">We appreciate the feedback, it’s clear to us that this is necessary.  We’re working on caching packages and artifacts between workflow executions, we’ll have it by mid-November.</a></h3><p>目前還無法在 workflows 之間快取檔案，所以每次的 build，都需要重新拉取 dependency packages。當然 docker layer 也不會快取，所以都要重頭開始 build。</p>
+<h3 id="No-Team-Level-Secret-This-is-something-that-is-on-our-backlog-for-a-future-update"><a href="#No-Team-Level-Secret-This-is-something-that-is-on-our-backlog-for-a-future-update" class="headerlink" title="No Team Level Secret: This is something that is on our backlog for a future update."></a>No Team Level Secret: <a target="_blank" rel="noopener" href="https://github.community/t5/GitHub-Actions/Secrets-on-Team-and-Organization-level/m-p/31342/highlight/true#M772">This is something that is on our backlog for a future update.</a></h3><p>目前還不支援 Team/Organization Level Secret，所以要到每個 repository 裡面設定 Secret，相當麻煩。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/sdras/awesome-actions">https://github.com/sdras/awesome-actions</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://rammusxu.github.io/2019/10/09/Github-Action-YAML-format/" data-id="cle73ssdl001e01o89mey7l5k" data-title="Github Action - 更換成 beta v2 新的格式 (yaml)" class="article-share-link">Share</a>
+      
+        <a href="https://rammusxu.github.io/2019/10/09/Github-Action-YAML-format/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CD/" rel="tag">CD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/" rel="tag">Github</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一頁</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/5/">下一頁 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Alert/" rel="tag">Alert</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CD/" rel="tag">CD</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/" rel="tag">CI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatOps/" rel="tag">ChatOps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare/" rel="tag">Cloudflare</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloudflare-Worker/" rel="tag">Cloudflare Worker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DNS/" rel="tag">DNS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DevOps/" rel="tag">DevOps</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Devops/" rel="tag">Devops</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EC2/" rel="tag">EC2</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/" rel="tag">Express</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GCP/" rel="tag">GCP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GKE/" rel="tag">GKE</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitLab/" rel="tag">GitLab</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitOps/" rel="tag">GitOps</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/" rel="tag">Github</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github-Action/" rel="tag">Github Action</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/" rel="tag">Gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Grafana/" rel="tag">Grafana</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Homebrew/" rel="tag">Homebrew</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/How-I-Mess-Up-in-Production/" rel="tag">How I Mess Up in Production</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAM/" rel="tag">IAM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IntelliJ/" rel="tag">IntelliJ</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linkerd/" rel="tag">Linkerd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Meetup/" rel="tag">Meetup</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/News/" rel="tag">News</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Play-Framework/" rel="tag">Play Framework</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RDS/" rel="tag">RDS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/S3/" rel="tag">S3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SES/" rel="tag">SES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQS/" rel="tag">SQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSL/" rel="tag">SSL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSM/" rel="tag">SSM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrum/" rel="tag">Scrum</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Serverless/" rel="tag">Serverless</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service-Mesh/" rel="tag">Service Mesh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software/" rel="tag">Software</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/" rel="tag">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/" rel="tag">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Wordpress/" rel="tag">Wordpress</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c9-io/" rel="tag">c9.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" rel="tag">讀書心得</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/API/" style="font-size: 10px;">API</a> <a href="/tags/AWS/" style="font-size: 17.5px;">AWS</a> <a href="/tags/Alert/" style="font-size: 10px;">Alert</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/CD/" style="font-size: 16.25px;">CD</a> <a href="/tags/CI/" style="font-size: 15px;">CI</a> <a href="/tags/ChatOps/" style="font-size: 10px;">ChatOps</a> <a href="/tags/Cloudflare/" style="font-size: 10px;">Cloudflare</a> <a href="/tags/Cloudflare-Worker/" style="font-size: 10px;">Cloudflare Worker</a> <a href="/tags/DNS/" style="font-size: 11.25px;">DNS</a> <a href="/tags/DevOps/" style="font-size: 20px;">DevOps</a> <a href="/tags/Devops/" style="font-size: 10px;">Devops</a> <a href="/tags/Docker/" style="font-size: 17.5px;">Docker</a> <a href="/tags/EC2/" style="font-size: 13.75px;">EC2</a> <a href="/tags/ElasticSearch/" style="font-size: 11.25px;">ElasticSearch</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/GCP/" style="font-size: 13.75px;">GCP</a> <a href="/tags/GKE/" style="font-size: 13.75px;">GKE</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/GitLab/" style="font-size: 13.75px;">GitLab</a> <a href="/tags/GitOps/" style="font-size: 15px;">GitOps</a> <a href="/tags/Github/" style="font-size: 12.5px;">Github</a> <a href="/tags/Github-Action/" style="font-size: 10px;">Github Action</a> <a href="/tags/Gradle/" style="font-size: 11.25px;">Gradle</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/Homebrew/" style="font-size: 10px;">Homebrew</a> <a href="/tags/How-I-Mess-Up-in-Production/" style="font-size: 10px;">How I Mess Up in Production</a> <a href="/tags/IAM/" style="font-size: 10px;">IAM</a> <a href="/tags/IntelliJ/" style="font-size: 10px;">IntelliJ</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 18.75px;">Kubernetes</a> <a href="/tags/Linkerd/" style="font-size: 10px;">Linkerd</a> <a href="/tags/Linux/" style="font-size: 16.25px;">Linux</a> <a href="/tags/Mac/" style="font-size: 12.5px;">Mac</a> <a href="/tags/Meetup/" style="font-size: 11.25px;">Meetup</a> <a href="/tags/MongoDB/" style="font-size: 13.75px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/News/" style="font-size: 11.25px;">News</a> <a href="/tags/Node-js/" style="font-size: 13.75px;">Node.js</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Play-Framework/" style="font-size: 11.25px;">Play Framework</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RDS/" style="font-size: 11.25px;">RDS</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SES/" style="font-size: 10px;">SES</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SSL/" style="font-size: 12.5px;">SSL</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/Scrum/" style="font-size: 10px;">Scrum</a> <a href="/tags/Security/" style="font-size: 13.75px;">Security</a> <a href="/tags/Serverless/" style="font-size: 10px;">Serverless</a> <a href="/tags/Service-Mesh/" style="font-size: 10px;">Service Mesh</a> <a href="/tags/Software/" style="font-size: 10px;">Software</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Ubuntu/" style="font-size: 10px;">Ubuntu</a> <a href="/tags/Wordpress/" style="font-size: 12.5px;">Wordpress</a> <a href="/tags/c9-io/" style="font-size: 11.25px;">c9.io</a> <a href="/tags/terminal/" style="font-size: 11.25px;">terminal</a> <a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/" style="font-size: 10px;">讀書心得</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/">2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">27</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/">2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/20/Devops-Highway-Strategy-%E9%AB%98%E9%80%9F%E5%85%AC%E8%B7%AF%E7%AD%96%E7%95%A5/">Devops - Highway Strategy 高速公路策略</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/19/Github-Action-Can-t-use-gh-cli-in-self-runner-in-Enterprise/">Github Action - Can&#39;t use gh-cli in self-runner in Enterprise</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/18/Kubernetes-ExternalSecret-is-not-authorized-to-perform-secretsmanager-GetSecretValue/">Kubernetes - ExternalSecret is not authorized to perform:secretsmanager:GetSecretValue</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/10/Kubernetes-Increase-Metrics-Server-Resources/">Kubernetes - Increase metrics-server resources (cpu/memory)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/24/Docker-Update-Rate-Limit-Policy-on-2020-08-24/">Docker Update Rate Limit Policy on 2020-08-24 懶人包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/21/Docker-New-Retention-Policy-on-2020-08-13/">Docker New Retention Policy on 2020-08-13</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/17/How-I-debug-a-certificate-didn-t-renew/">How I debug a certificate didn&#39;t renew</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/03/AWS-Route-53-Demo-Geolocation-Routing/">AWS Route 53 - 實測 Geolocation Routing</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/28/Linkerd-Multi-Kubernetes-Cluster-Feature-Overview/">Linkerd 2.8 - 實現超級簡單又安全的多叢集(multicluster) Kubernetes 架構</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/Kubernetes-Access-another-cluster-services-with-service-account-token/">Kubernetes - Access another cluster services with service account token</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+      Copyright &copy; 2015-2023 Rammus Xu<br>
+      All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About Me</a>
+  
+    <a href="/tags/DevOps/" class="mobile-nav-link">DevOps</a>
+  
+    <a href="/toolkit" class="mobile-nav-link">Toolkit</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'rammusxu';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
